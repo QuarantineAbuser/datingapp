@@ -1,0 +1,15 @@
+Dating app: Page with people, click on profiles, add them in favourites, like them (if both like each other send each other something they are notified),
+Messaging app(maybe), maybe like a timeline with posts, pop up ads.
+
+Fashion/Furniture app: items to choose from, buy them, add to cart, users to log in, manufacturers of the items, design requests, sell designs to people,
+maybe add money and use the money for stuff, pop up ads.
+
+Planot mi e da ima poveke korisnici i koga sekoj korisnik se registrira na stranata toj e vidliv za site i tie mozat da gi stavat vo lista (wishlist), ako
+se zainteresirani za niv, isto taka ima i opcija da im se dopagaat i ako dvajcata odberat opcijata deka se dopagaat megu sebe, togas tie ke bidat vo drug del
+(matched) i planiram tie sto se matched da dobijat opcija da si prakaat poraki (ako uspeam da go napravam toa), ako ne uspeam so poraki togas namesto poraki,
+samo bi go pokazal nivniot telefonski broj, pa preku nego mozat da si pisuvaat. Isto bi mozel da napravam kako timeline kade sekoj user moze da pravi postovi,
+no i ova ne znam kolku ke bide lesno.
+
+Koga crtav diagram za ova mi izgledase slozeno, ako smetam deka ne se dovolno funkcionalnosti implementirani, jas ke napravam nekoj sosema drug
+proekt kako Furniture shop(Rabotata na mojot tatko) so raspolozliva suma na pari so koj korisnikot moze da kupuva i ako mozam i reviews na produkti da dodadam.
+No ova e ako sosema krajna idea, ako ne uspeam nisto bidejki sepak mi trebaat 5 poeni za polozuvanje.
