@@ -1,7 +1,7 @@
 <header>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="/">WEB PROGRAMMING SHOP</a>
+            <a class="navbar-brand" href="/">DATING APP</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
                     aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -10,16 +10,15 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarsExampleDefault">
                 <ul class="navbar-nav m-auto">
                     <li class="nav-item m-auto">
-                        <a class="nav-link active" href="/products">Products</a>
+                        <a class="nav-link active" href="/users">Users</a>
                     </li>
                     <li class="nav-item m-auto">
-                        <a class="nav-link active" href="/servlet/thymeleaf/category">Categories</a>
+                        <a class="nav-link active" href="/interested">Interested</a>
                     </li>
                     <li class="nav-item m-auto">
-                        <a class="nav-link active" href="/manufacturers">Manufacturers</a>
+                        <a class="nav-link active" href="/likedBy">Likes</a>
                     </li>
                 </ul>
-
 
                 <form class="form-inline my-2 my-lg-0">
                     <div class="input-group input-group-sm">
@@ -41,12 +40,7 @@
                                       th:text="${#request.getRemoteUser()}"></th:block>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="btn btn-success btn-sm ml-3" href="/shopping-cart">
-                            <i class="fa fa-shopping-cart"></i> Cart
-                        </a>
-                    </li>
-                    <li class="nav-item"><a class="btn btn-light btn-sm ml-3" href="/logout">
+                    <li class="nav-item"><a class="btn btn-danger btn-sm ml-3" href="/logout">
                         <i class="fa fa-shopping-cart"></i> Logout
                     </a></li>
                 </ul>

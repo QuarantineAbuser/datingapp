@@ -1,6 +1,7 @@
 package mk.ukim.finki.datingapp.web;
 
 import mk.ukim.finki.datingapp.models.enumerations.Role;
+import mk.ukim.finki.datingapp.models.enumerations.Sex;
 import mk.ukim.finki.datingapp.models.exceptions.InvalidArgumentsException;
 import mk.ukim.finki.datingapp.models.exceptions.PasswordsDoNotMatchException;
 import mk.ukim.finki.datingapp.service.UserService;
@@ -38,9 +39,14 @@ public class RegisterController {
                            @RequestParam String repeatedPassword,
                            @RequestParam String name,
                            @RequestParam String surname,
+                           @RequestParam int age,
+                           @RequestParam String bio,
+                           @RequestParam String city,
+                           @RequestParam Sex sex,
                            @RequestParam Role role) {
         try {
-            userService.register(username, password, repeatedPassword, name, surname, role);
+            userService.register(username, password, repeatedPassword,
+                    name, surname, role, age, bio, city, sex);
             return "redirect:/login";
         } catch (InvalidArgumentsException | PasswordsDoNotMatchException e) {
             return "redirect:/register?error=" + e.getMessage();

@@ -1,0 +1,47 @@
+<div xmlns:th="http://www.thymeleaf.org">
+    <section class="jumbotron text-center">
+        <div class="container">
+            <h3 class="jumbotron-heading">Users</h3>
+        </div>
+    </section>
+
+    <div class="container mb-4">
+        <div class="row">
+            <div class="col-12" th:if="${users.size() > 0}">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Age</th>
+                            <th scope="col">Sex</th>
+                            <th scope="col">Bio</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="user : ${users}">
+                            <td th:text="${user.getName()}"></td>
+                            <td th:text="${user.getAge()}"></td>
+                            <td th:text="${user.getSex()}"></td>
+                            <td th:text="${user.getBio() != null}
+                            ? ${user.getBio()} : 'No Bio'"></td>
+                            <td class="text-right">
+                                <form th:action="@{'interested/{username}' (username=${user.getUsername()})}"
+                                      th:method="DELETE">
+                                    <button type="submit" class="btn btn-sm btn-success"><i
+                                            class="fa fa-trash">Interested</i></button>
+                                </form>
+                                <form th:action="@{'/like/{username}' (username=${user.getUsername()})}"
+                                      th:method="DELETE">
+                                    <button type="submit" class="btn btn-sm btn-danger"><i
+                                            class="fa fa-trash">Like</i></button>
+                                </form>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

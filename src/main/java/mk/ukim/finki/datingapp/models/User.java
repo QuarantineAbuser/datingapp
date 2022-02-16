@@ -1,10 +1,12 @@
 package mk.ukim.finki.datingapp.models;
 
 import mk.ukim.finki.datingapp.models.enumerations.Role;
+import mk.ukim.finki.datingapp.models.enumerations.Sex;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -22,15 +24,41 @@ public class User implements UserDetails {
 
     private String surname;
 
+    private int age;
+
+    private String bio;
+
+    private String city;
+
+    @Enumerated(value = EnumType.STRING)
+    private Sex sex;
+
     @Enumerated(value = EnumType.STRING)
     private Role role;
 
-    public User(String username, String password, String name, String surname, Role role) {
+    @ManyToMany
+    List<User> likes;
+
+    @ManyToMany
+    List<User> interestedIn;
+
+    @ManyToMany
+    List<User> matched;
+
+    public User(String username, String password, String name, String surname, Role role,
+                int age, String bio, String city, Sex sex) {
         this.username = username;
         this.password = password;
         this.name = name;
         this.surname = surname;
         this.role = role;
+        this.age = age;
+        this.bio = bio;
+        this.city = city;
+        this.sex = sex;
+        this.likes = new ArrayList<>();
+        this.interestedIn = new ArrayList<>();
+        this.matched = new ArrayList<>();
     }
 
     public User() {
@@ -102,5 +130,61 @@ public class User implements UserDetails {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public List<User> getLikes() {
+        return likes;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public Sex getSex() {
+        return sex;
+    }
+
+    public void setSex(Sex sex) {
+        this.sex = sex;
+    }
+
+    public void addLikes(User user) {
+        this.likes.add(user);
+    }
+
+    public List<User> getInterestedIn() {
+        return interestedIn;
+    }
+
+    public void addInterestedIn(User user) {
+        this.interestedIn.add(user);
+    }
+
+    public List<User> getMatched() {
+        return matched;
+    }
+
+    public void addMatched(User user) {
+        this.matched.add(user);
     }
 }

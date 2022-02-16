@@ -32,13 +32,38 @@
                        autofocus="">
             </p>
             <p>
+                <label for="age" class="sr-only">Age</label>
+                <input type="text" id="age" name="age" class="form-control" placeholder="Age" required=""
+                       autofocus="">
+            </p>
+            <p>
+                <label for="bio" class="sr-only">Bio</label>
+                <input type="text" id="bio" name="bio" class="form-control" placeholder="Bio" required=""
+                       autofocus="">
+            </p>
+            <p>
+                <label for="city" class="sr-only">City</label>
+                <input type="text" id="city" name="city" class="form-control" placeholder="City" required=""
+                       autofocus="">
+            </p>
+            <p>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" name="sex" type="radio" id="MALE" value="MALE">
+                <label class="form-check-label" for="MALE">Male</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" name="sex"  type="radio" id="FEMALE" value="FEMALE">
+                <label class="form-check-label" for="FEMALE">Female</label>
+            </div>
+            </p>
+            <p>
             <div class="form-check form-check-inline">
                 <input class="form-check-input" name="role" type="radio" id="ROLE_ADMIN" value="ROLE_ADMIN">
-                <label class="form-check-label" for="ROLE_ADMIN">ROLE_ADMIN</label>
+                <label class="form-check-label" for="ROLE_ADMIN">User</label>
             </div>
             <div class="form-check form-check-inline">
                 <input class="form-check-input" name="role"  type="radio" id="ROLE_USER" value="ROLE_USER">
-                <label class="form-check-label" for="ROLE_USER">ROLE_USER</label>
+                <label class="form-check-label" for="ROLE_USER">Admin</label>
             </div>
             </p>
             <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>

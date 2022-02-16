@@ -30,7 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/login").permitAll()
                 .failureUrl("/login?=BadCredentials")
-                .defaultSuccessUrl("/home", true)
+                .defaultSuccessUrl("/users", true)
                 .and()
                 .logout()
                 .logoutUrl("/logout")
@@ -46,14 +46,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.inMemoryAuthentication()
-//                .withUser("stefanmitrevski")
-//                .password(passwordEncoder.encode("sm"))
-//                .authorities("ROLE_USER")
-//                .and()
-//                .withUser("admin")
-//                .password(passwordEncoder.encode("admin"))
-//                .authorities("ROLE_ADMIN");
         auth.authenticationProvider(authenticationProvider);
     }
 }

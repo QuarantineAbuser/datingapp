@@ -1,0 +1,5 @@
+- Fix looks
+- Make role choosing in registry only for logged in admins(hide it for users)
+- Add better labels for register page
+- Maybe add pictures to users?
+- 18+ users only
