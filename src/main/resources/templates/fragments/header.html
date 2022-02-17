@@ -10,13 +10,16 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarsExampleDefault">
                 <ul class="navbar-nav m-auto">
                     <li class="nav-item m-auto">
-                        <a class="nav-link active" href="/users">Users</a>
+                        <a class="nav-link active" href="/users">USERS</a>
                     </li>
                     <li class="nav-item m-auto">
-                        <a class="nav-link active" href="/interested">Interested</a>
+                        <a class="nav-link active" href="/interested">INTERESTED</a>
                     </li>
                     <li class="nav-item m-auto">
-                        <a class="nav-link active" href="/likedBy">Likes</a>
+                        <a class="nav-link active" href="/likedBy">LIKES</a>
+                    </li>
+                    <li class="nav-item m-auto">
+                        <a class="nav-link active" href="/matches">MATCHES</a>
                     </li>
                 </ul>
 
@@ -36,13 +39,13 @@
 
                     <li class="nav-item">
                         <a class="nav-link" href="#">
-                            <th:block th:if="${#request.getRemoteUser() != null}"
-                                      th:text="${#request.getRemoteUser()}"></th:block>
+<!--                            <th:block th:if="${#request.getRemoteUser() != null}"-->
+<!--                                      th:text="${'Welcome, ' + activeUser.getName()}"></th:block>-->
+                            <th:block th:text="${#request.getRemoteUser() != null}
+                                                ? ${'Welcome, ' + activeUser.getName()}
+                                                : ${'Welcome, stranger!'}"></th:block>
                         </a>
                     </li>
-                    <li class="nav-item"><a class="btn btn-danger btn-sm ml-3" href="/logout">
-                        <i class="fa fa-shopping-cart"></i> Logout
-                    </a></li>
                 </ul>
             </div>
         </div>

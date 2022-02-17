@@ -30,6 +30,8 @@ public class User implements UserDetails {
 
     private String city;
 
+    private String phoneNumber;
+
     @Enumerated(value = EnumType.STRING)
     private Sex sex;
 
@@ -46,7 +48,7 @@ public class User implements UserDetails {
     List<User> matched;
 
     public User(String username, String password, String name, String surname, Role role,
-                int age, String bio, String city, Sex sex) {
+                int age, String bio, String city, Sex sex, String phoneNumber) {
         this.username = username;
         this.password = password;
         this.name = name;
@@ -56,6 +58,7 @@ public class User implements UserDetails {
         this.bio = bio;
         this.city = city;
         this.sex = sex;
+        this.phoneNumber = phoneNumber;
         this.likes = new ArrayList<>();
         this.interestedIn = new ArrayList<>();
         this.matched = new ArrayList<>();
@@ -166,6 +169,14 @@ public class User implements UserDetails {
 
     public void setSex(Sex sex) {
         this.sex = sex;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public void addLikes(User user) {

@@ -1,12 +1,12 @@
 package mk.ukim.finki.datingapp.web;
 
 import mk.ukim.finki.datingapp.models.User;
-import mk.ukim.finki.datingapp.models.exceptions.UserNotFoundException;
 import mk.ukim.finki.datingapp.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,50 +21,89 @@ public class UsersController {
         this.userService = userService;
     }
 
-    @GetMapping(value = {"/", "/users"})
-    public String getUsersPage(Model model, HttpServletRequest request){
-        String username = request.getRemoteUser();
-        User user = userService.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException(username));
+    @ModelAttribute
+    void headerAttributes(Model model, HttpServletRequest request){
+        User activeUser = userService.getActiveUser(request);
 
-        List<User> users = userService.listAll();
-        users.removeAll(user.getInterestedIn());
+        model.addAttribute("activeUser", activeUser);
+        model.addAttribute("fragments/header", "activeUser");
+    }
+
+    @GetMapping({"/", "/users"})
+    public String getUsersPage(Model model, HttpServletRequest request){
+        List<User> users = userService.findUsersFor(request.getRemoteUser());
+
         model.addAttribute("users", users);
         model.addAttribute("bodyContent", "users_page");
         return "master-template";
+        //return "users_page";
+
     }
 
-    @GetMapping(value = "/interested")
+    @GetMapping( "/interested")
     public String getInterestedInPage(Model model, HttpServletRequest request){
-        String username = request.getRemoteUser();
-        User user = userService.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException(username));
-        List<User> interestedIn = user.getInterestedIn();
+        List<User> interestedIn = userService.findInterestedFor(request.getRemoteUser());
+
         model.addAttribute("users", interestedIn);
         model.addAttribute("bodyContent", "interested_page");
         return "master-template";
+        //return "interested_page";
+
     }
 
-    @DeleteMapping(value = "/interested/{username}")
+    @GetMapping( "/likedBy")
+    public String getLikedByPage(Model model, HttpServletRequest request){
+        List<User> likedBy = userService.findLikedByFor(request.getRemoteUser());
+
+        model.addAttribute("users", likedBy);
+        model.addAttribute("bodyContent", "likedBy_page");
+        return "master-template";
+        //return "likedBy_page";
+    }
+
+    @GetMapping( "/matches")
+    public String getMatchesPage(Model model, HttpServletRequest request){
+        User activeUser = userService.getActiveUser(request);
+        userService.updateMatches(request.getRemoteUser());
+        List<User> matches = activeUser.getMatched();
+
+        model.addAttribute("users", matches);
+        model.addAttribute("bodyContent", "matches_page");
+        return "master-template";
+        //return "matches_page";
+    }
+
+    @DeleteMapping( "/interested/{username}")
     public String addInterest(@PathVariable String username,HttpServletRequest request){
-        String activeUsername = request.getRemoteUser();
-        User activeUser = userService.findByUsername(activeUsername)
-                .orElseThrow(() -> new UserNotFoundException(username));
-        User interestedUser = userService.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException(username));
-        userService.interest(activeUser, interestedUser);
+        userService.interested(request.getRemoteUser(), username);
+
         return "redirect:/users";
     }
 
-    @DeleteMapping(value = "/uninterested/{username}")
+    @DeleteMapping( "/uninterested/{username}")
     public String removeInterest(@PathVariable String username,HttpServletRequest request){
-        String activeUsername = request.getRemoteUser();
-        User activeUser = userService.findByUsername(activeUsername)
-                .orElseThrow(() -> new UserNotFoundException(username));
-        User interestedUser = userService.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException(username));
-        userService.uninterested(activeUser, interestedUser);
+        userService.uninterested(request.getRemoteUser(), username);
+
         return "redirect:/interested";
+    }
+
+    @DeleteMapping( "/like/{username}")
+    public String addLiked(@PathVariable String username,HttpServletRequest request){
+        userService.like(request.getRemoteUser(), username);
+
+        return "redirect:/interested";
+    }
+
+    @DeleteMapping( "/unlike/{username}")
+    public String removeLiked(@PathVariable String username,HttpServletRequest request){
+        userService.unlike(request.getRemoteUser(), username);
+
+        return "redirect:/interested";
+    }
+    @DeleteMapping( "/delete/{username}")
+    public String deleteLikedBy(@PathVariable String username,HttpServletRequest request){
+        userService.unlike(username, request.getRemoteUser());
+        return "redirect:/likedBy";
     }
 
     @GetMapping("/access_denied")

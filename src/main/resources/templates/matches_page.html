@@ -1,7 +1,7 @@
 <div xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <section class="jumbotron text-center" style="height:30px;margin-top:-5%">
         <div class="container">
-            <h3 class="jumbotron-heading">Users</h3>
+            <h3 class="jumbotron-heading">My matches</h3>
         </div>
     </section>
 
@@ -13,30 +13,27 @@
                         <thead>
                         <tr>
                             <th scope="col">Name</th>
+                            <th scope="col">Surname</th>
                             <th scope="col">Age</th>
                             <th scope="col">Sex</th>
-                            <th scope="col">Bio</th>
+                            <th scope="col">City</th>
+                            <th scope="col">Phone number</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr th:each="user : ${users}">
                             <td th:text="${user.getName()}"></td>
+                            <td th:text="${user.getSurname()}"></td>
                             <td th:text="${user.getAge()}"></td>
                             <td th:text="${user.getSex()}"></td>
-                            <td th:text="${user.getBio() != null}
-                            ? ${user.getBio()} : 'No Bio'"></td>
+                            <td th:text="${user.getCity()}"></td>
+                            <td th:text="${user.getPhoneNumber()}"></td>
                             <td class="text-right">
-                                <form th:action="@{'interested/{username}' (username=${user.getUsername()})}"
+                                <form th:action="@{'unlike/{username}' (username=${user.getUsername()})}"
                                       th:method="DELETE">
-                                    <button type="submit" class="btn btn-sm btn-success"><i
-                                            class="fa fa-trash">Interested</i></button>
+                                    <button type="submit" class="btn btn-sm btn-danger"><i
+                                            class="fa fa-trash">Unlike</i></button>
                                 </form>
-<!--                                if i press like the button is disabled and changes color?-->
-<!--                                <form th:action="@{'/like/{username}' (username=${user.getUsername()})}"-->
-<!--                                      th:method="DELETE">-->
-<!--                                    <button type="submit" class="btn btn-sm btn-danger"><i-->
-<!--                                            class="fa fa-trash">Like</i></button>-->
-<!--                                </form>-->
                             </td>
                         </tr>
                         </tbody>
@@ -44,7 +41,7 @@
                 </div>
             </div>
             <div class="col-12" th:if="${users.size() == 0}">
-                <h4 class="jumbotron-heading text-center">No users found!</h4>
+                <h4 class="jumbotron-heading text-center">Your list is empty!</h4>
             </div>
         </div>
     </div>

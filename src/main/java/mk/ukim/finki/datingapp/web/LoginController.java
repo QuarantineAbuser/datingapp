@@ -23,7 +23,9 @@ public class LoginController {
     }
 
     @GetMapping
-    public String getLoginPage(Model model) {
+    public String getLoginPage(Model model, HttpServletRequest request) {
+        if(request.getRemoteUser() != null)
+            return "redirect:/users";
         model.addAttribute("bodyContent","login");
         return "master-template";
     }

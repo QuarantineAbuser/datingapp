@@ -43,10 +43,11 @@ public class RegisterController {
                            @RequestParam String bio,
                            @RequestParam String city,
                            @RequestParam Sex sex,
-                           @RequestParam Role role) {
+                           @RequestParam Role role,
+                           @RequestParam String phoneNumber) {
         try {
             userService.register(username, password, repeatedPassword,
-                    name, surname, role, age, bio, city, sex);
+                    name, surname, role, age, bio, city, sex, phoneNumber);
             return "redirect:/login";
         } catch (InvalidArgumentsException | PasswordsDoNotMatchException e) {
             return "redirect:/register?error=" + e.getMessage();
