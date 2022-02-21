@@ -1,5 +1,6 @@
 package mk.ukim.finki.datingapp.web;
 
+import mk.ukim.finki.datingapp.config.DataInitializer;
 import mk.ukim.finki.datingapp.models.User;
 import mk.ukim.finki.datingapp.models.exceptions.InvalidUserCredentialsException;
 import mk.ukim.finki.datingapp.service.AuthService;
@@ -37,6 +38,7 @@ public class LoginController {
         try {
             user = authService.login(username, password);
             request.getSession().setAttribute("user", user);
+            DataInitializer.ACTIVE_USER = user;
             return "redirect:/home";
         } catch (InvalidUserCredentialsException e) {
             model.addAttribute("hasError", true);

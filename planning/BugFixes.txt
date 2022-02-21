@@ -9,3 +9,6 @@ TO DO:
 - Make input checks like phonenumbers and stuff
 - When trying to /login or /register while logged in (request.remoteuser != null) redirect them
 back to main page
+- Filter posts by some date, user, sort by likes.
+- Static User in data initializer on every login so I dont use requests all the time.
+- Maybe choose if post is only for matched

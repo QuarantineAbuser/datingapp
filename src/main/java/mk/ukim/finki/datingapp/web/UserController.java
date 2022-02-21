@@ -13,11 +13,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
-public class UsersController {
+public class UserController {
 
     private final UserService userService;
 
-    public UsersController(UserService userService) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 

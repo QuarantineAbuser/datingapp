@@ -1,0 +1,58 @@
+<div xmlns:th="http://www.thymeleaf.org">
+  <section class="jumbotron text-center" style="height:30px;margin-top:-5%">
+    <div class="container">
+      <h3 class="jumbotron-heading">TIMELINE</h3>
+    </div>
+  </section>
+
+  <div class="text-center">
+    <h5>
+      <a th:href="@{'/timeline/add'}" class="btn btn-sm btn-info"><i
+              class="fa fa-trash">Add New Post</i></a>
+    </h5>
+  </div>
+  <div class="container mb-4">
+    <div class="row">
+      <div class="col-12" th:if="${posts.size() > 0}">
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Content</th>
+              <th scope="col">Likes</th>
+              <th scope="col">Date Posted</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="post : ${posts}">
+              <td th:text="${post.getUser().getNameAndUsername()}"></td>
+              <td th:text="${post.getContent()}"></td>
+              <td th:text="${post.getLikes().size()}"></td>
+              <td th:text="${post.getDateCreated().toString()}"></td>
+
+              <td class="text-right">
+                <form th:if="${post.getLikes().contains(activeUser)} == false"
+                      th:action="@{'timeline/like/{id}' (id=${post.getId()})}"
+                      th:method="DELETE">
+                  <button type="submit" class="btn btn-sm btn-success"><i
+                          class="fa fa-trash">Like</i></button>
+                </form>
+                <form th:if="${post.getLikes().contains(activeUser)} == true"
+                      th:action="@{'timeline/unlike/{id}' (id=${post.getId()})}"
+                      th:method="DELETE">
+                  <button type="submit" class="btn btn-sm btn-danger"><i
+                          class="fa fa-trash">Unlike</i></button>
+                </form>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-12" th:if="${posts.size() == 0}">
+        <h4 class="jumbotron-heading text-center">There are no posts yet!</h4>
+      </div>
+    </div>
+  </div>
+</div>

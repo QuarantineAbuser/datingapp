@@ -47,6 +47,9 @@ public class User implements UserDetails {
     @ManyToMany
     List<User> matched;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    List<Post> posts;
+
     public User(String username, String password, String name, String surname, Role role,
                 int age, String bio, String city, Sex sex, String phoneNumber) {
         this.username = username;
@@ -62,6 +65,7 @@ public class User implements UserDetails {
         this.likes = new ArrayList<>();
         this.interestedIn = new ArrayList<>();
         this.matched = new ArrayList<>();
+        this.posts = new ArrayList<>();
     }
 
     public User() {
@@ -197,5 +201,17 @@ public class User implements UserDetails {
 
     public void addMatched(User user) {
         this.matched.add(user);
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void addPost(Post post) {
+        this.posts.add(post);
+    }
+
+    public String getNameAndUsername(){
+        return name + " " + surname;
     }
 }
