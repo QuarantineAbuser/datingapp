@@ -13,7 +13,6 @@
                         <thead>
                         <tr>
                             <th scope="col">Name</th>
-                            <th scope="col">Surname</th>
                             <th scope="col">Age</th>
                             <th scope="col">Sex</th>
                             <th scope="col">City</th>
@@ -22,14 +21,16 @@
                         </thead>
                         <tbody>
                         <tr th:each="user : ${users}">
-                            <td th:text="${user.getName()}"></td>
-                            <td th:text="${user.getSurname()}"></td>
+                            <td><a th:text="${user.getNameAndSurname()}"
+                                   th:href="@{'/timeline/profile/{username}'
+                                   (username=${user.getUsername()})}" class="btn btn-sm btn-link">
+                            </a></td>
                             <td th:text="${user.getAge()}"></td>
                             <td th:text="${user.getSex()}"></td>
                             <td th:text="${user.getCity()}"></td>
                             <td th:text="${user.getPhoneNumber()}"></td>
                             <td class="text-right">
-                                <form th:action="@{'unlike/{username}' (username=${user.getUsername()})}"
+                                <form th:action="@{'/users/unlike/{username}' (username=${user.getUsername()})}"
                                       th:method="DELETE">
                                     <button type="submit" class="btn btn-sm btn-danger"><i
                                             class="fa fa-trash">Unlike</i></button>

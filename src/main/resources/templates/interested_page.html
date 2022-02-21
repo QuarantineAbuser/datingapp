@@ -20,25 +20,28 @@
                         </thead>
                         <tbody>
                         <tr th:each="user : ${users}">
-                            <td th:text="${user.getName()}"></td>
+                            <td><a th:text="${user.getName()}"
+                                   th:href="@{'/timeline/profile/{username}'
+                                   (username=${user.getUsername()})}" class="btn btn-sm btn-link">
+                            </a></td>
                             <td th:text="${user.getAge()}"></td>
                             <td th:text="${user.getSex()}"></td>
                             <td th:text="${user.getBio() != null}
                             ? ${user.getBio()} : 'No Bio'"></td>
                             <td class="text-right">
-                                <form th:action="@{'uninterested/{username}' (username=${user.getUsername()})}"
+                                <form th:action="@{'/users/uninterested/{username}' (username=${user.getUsername()})}"
                                       th:method="DELETE">
                                     <button type="submit" class="btn btn-sm btn-danger"><i
                                             class="fa fa-trash">Uninterested</i></button>
                                 </form>
                                 <form th:if="${activeUser.getLikes().contains(user)} == false"
-                                      th:action="@{'/like/{username}' (username=${user.getUsername()})}"
+                                      th:action="@{'/users/like/{username}' (username=${user.getUsername()})}"
                                       th:method="DELETE">
                                     <button type="submit" class="btn btn-sm btn-success"><i
                                             class="fa fa-trash">Like</i></button>
                                 </form>
                                 <form th:if="${activeUser.getLikes().contains(user)} == true"
-                                      th:action="@{'/unlike/{username}' (username=${user.getUsername()})}"
+                                      th:action="@{'/users/unlike/{username}' (username=${user.getUsername()})}"
                                       th:method="DELETE">
                                     <button type="submit" class="btn btn-sm btn-danger"><i
                                             class="fa fa-trash">Unlike</i></button>

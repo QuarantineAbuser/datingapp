@@ -4,15 +4,14 @@ import mk.ukim.finki.datingapp.models.User;
 import mk.ukim.finki.datingapp.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
+@RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
@@ -20,6 +19,12 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
+
+//    public String reloadPage(HttpServletRequest request){
+//        //HttpServletRequest request
+//        String referrer = request.getHeader("referer").substring(21);
+//        return "redirect:" + referrer;
+//    }
 
     @ModelAttribute
     void headerAttributes(Model model, HttpServletRequest request){
@@ -29,15 +34,13 @@ public class UserController {
         model.addAttribute("fragments/header", "activeUser");
     }
 
-    @GetMapping({"/", "/users"})
+    @GetMapping()
     public String getUsersPage(Model model, HttpServletRequest request){
         List<User> users = userService.findUsersFor(request.getRemoteUser());
 
         model.addAttribute("users", users);
         model.addAttribute("bodyContent", "users_page");
         return "master-template";
-        //return "users_page";
-
     }
 
     @GetMapping( "/interested")
@@ -47,8 +50,6 @@ public class UserController {
         model.addAttribute("users", interestedIn);
         model.addAttribute("bodyContent", "interested_page");
         return "master-template";
-        //return "interested_page";
-
     }
 
     @GetMapping( "/likedBy")
@@ -58,7 +59,6 @@ public class UserController {
         model.addAttribute("users", likedBy);
         model.addAttribute("bodyContent", "likedBy_page");
         return "master-template";
-        //return "likedBy_page";
     }
 
     @GetMapping( "/matches")
@@ -70,40 +70,47 @@ public class UserController {
         model.addAttribute("users", matches);
         model.addAttribute("bodyContent", "matches_page");
         return "master-template";
-        //return "matches_page";
     }
 
     @DeleteMapping( "/interested/{username}")
-    public String addInterest(@PathVariable String username,HttpServletRequest request){
+    public String addInterest(@PathVariable String username, HttpServletRequest request){
         userService.interested(request.getRemoteUser(), username);
+        String referrer = request.getHeader("referer").substring(21);
 
-        return "redirect:/users";
+        return "redirect:" + referrer;
     }
 
     @DeleteMapping( "/uninterested/{username}")
     public String removeInterest(@PathVariable String username,HttpServletRequest request){
         userService.uninterested(request.getRemoteUser(), username);
+        String referrer = request.getHeader("referer").substring(21);
 
-        return "redirect:/interested";
+        return "redirect:" + referrer;
     }
 
     @DeleteMapping( "/like/{username}")
     public String addLiked(@PathVariable String username,HttpServletRequest request){
         userService.like(request.getRemoteUser(), username);
 
-        return "redirect:/interested";
+        String referrer = request.getHeader("referer").substring(21);
+
+        return "redirect:" + referrer;
     }
 
     @DeleteMapping( "/unlike/{username}")
     public String removeLiked(@PathVariable String username,HttpServletRequest request){
         userService.unlike(request.getRemoteUser(), username);
+        String referrer = request.getHeader("referer").substring(21);
 
-        return "redirect:/interested";
+        return "redirect:" + referrer;
     }
     @DeleteMapping( "/delete/{username}")
     public String deleteLikedBy(@PathVariable String username,HttpServletRequest request){
         userService.unlike(username, request.getRemoteUser());
-        return "redirect:/likedBy";
+
+        String referrer = request.getHeader("referer").substring(21);
+
+        return "redirect:" + referrer;
     }
 
     @GetMapping("/access_denied")

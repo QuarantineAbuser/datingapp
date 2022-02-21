@@ -13,13 +13,13 @@
                         <a class="nav-link active" href="/users">USERS</a>
                     </li>
                     <li class="nav-item m-auto">
-                        <a class="nav-link active" href="/interested">INTERESTED</a>
+                        <a class="nav-link active" href="/users/interested">INTERESTED</a>
                     </li>
                     <li class="nav-item m-auto">
-                        <a class="nav-link active" href="/likedBy">LIKES</a>
+                        <a class="nav-link active" href="/users/likedBy">LIKES</a>
                     </li>
                     <li class="nav-item m-auto">
-                        <a class="nav-link active" href="/matches">MATCHES</a>
+                        <a class="nav-link active" href="/users/matches">MATCHES</a>
                     </li>
                 </ul>
 
@@ -39,11 +39,16 @@
 
                     <li class="nav-item">
                         <a class="nav-link" href="#">
-<!--                            <th:block th:if="${#request.getRemoteUser() != null}"-->
-<!--                                      th:text="${'Welcome, ' + activeUser.getName()}"></th:block>-->
                             <th:block th:text="${#request.getRemoteUser() != null}
                                                 ? ${'Welcome, ' + activeUser.getName()}
-                                                : ${'Welcome, stranger!'}"></th:block>
+                                                : ${'Welcome, stranger!'}">
+                            </th:block>
+<!--                            <th:block><a th:text="${#request.getRemoteUser() != null}-->
+<!--                                                ? ${'Welcome, ' + activeUser.getName()}-->
+<!--                                                : ${'Welcome, stranger!'}"-->
+<!--                                         th:href="@{'timeline/profile/{username}'-->
+<!--                                   (username=${activeUser.getUsername()})}" class="btn btn-sm btn-link">-->
+<!--                            </a></th:block>-->
                         </a>
                     </li>
                 </ul>

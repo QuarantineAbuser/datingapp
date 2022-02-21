@@ -26,7 +26,7 @@ public class LoginController {
     @GetMapping
     public String getLoginPage(Model model, HttpServletRequest request) {
         if(request.getRemoteUser() != null)
-            return "redirect:/users";
+            return "redirect:/timeline";
         model.addAttribute("bodyContent","login");
         return "master-template";
     }
@@ -39,7 +39,7 @@ public class LoginController {
             user = authService.login(username, password);
             request.getSession().setAttribute("user", user);
             DataInitializer.ACTIVE_USER = user;
-            return "redirect:/home";
+            return "redirect:/timeline";
         } catch (InvalidUserCredentialsException e) {
             model.addAttribute("hasError", true);
             model.addAttribute("error", e.getMessage());

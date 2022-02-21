@@ -211,7 +211,7 @@ public class User implements UserDetails {
         this.posts.add(post);
     }
 
-    public String getNameAndUsername(){
+    public String getNameAndSurname(){
         return name + " " + surname;
     }
 }

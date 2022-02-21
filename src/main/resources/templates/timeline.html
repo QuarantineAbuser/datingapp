@@ -26,20 +26,23 @@
             </thead>
             <tbody>
             <tr th:each="post : ${posts}">
-              <td th:text="${post.getUser().getNameAndUsername()}"></td>
+              <td><a th:text="${post.getUser().getNameAndSurname()}"
+                     th:href="@{'/timeline/profile/{username}'
+                                   (username=${post.getUser().getUsername()})}" class="btn btn-sm btn-link">
+              </a></td>
               <td th:text="${post.getContent()}"></td>
               <td th:text="${post.getLikes().size()}"></td>
               <td th:text="${post.getDateCreated().toString()}"></td>
 
               <td class="text-right">
                 <form th:if="${post.getLikes().contains(activeUser)} == false"
-                      th:action="@{'timeline/like/{id}' (id=${post.getId()})}"
+                      th:action="@{'/timeline/like/{id}' (id=${post.getId()})}"
                       th:method="DELETE">
                   <button type="submit" class="btn btn-sm btn-success"><i
                           class="fa fa-trash">Like</i></button>
                 </form>
                 <form th:if="${post.getLikes().contains(activeUser)} == true"
-                      th:action="@{'timeline/unlike/{id}' (id=${post.getId()})}"
+                      th:action="@{'/timeline/unlike/{id}' (id=${post.getId()})}"
                       th:method="DELETE">
                   <button type="submit" class="btn btn-sm btn-danger"><i
                           class="fa fa-trash">Unlike</i></button>

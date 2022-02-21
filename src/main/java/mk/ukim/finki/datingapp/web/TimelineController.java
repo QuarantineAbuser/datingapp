@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
-@RequestMapping("/timeline")
+@RequestMapping({"/timeline", "/", "home"})
 public class TimelineController {
 
     private final PostService postService;
@@ -40,16 +40,29 @@ public class TimelineController {
         return "master-template";
     }
 
+    @GetMapping("/profile/{username}")
+    public String getProfilePage(@PathVariable String username, Model model){
+        User user = userService.findByUsername(username);
+        model.addAttribute("user", user);
+        model.addAttribute("posts", user.getPosts());
+        model.addAttribute("bodyContent", "profile_timeline");
+        return "master-template";
+    }
+
     @DeleteMapping("/like/{id}")
     public String likePost(@PathVariable Long id, HttpServletRequest request){
         postService.likePost(id, true, request);
-        return "redirect:/timeline";
+        String referrer = request.getHeader("referer").substring(21);
+
+        return "redirect:" + referrer;
     }
 
     @DeleteMapping("/unlike/{id}")
     public String unlikePost(@PathVariable Long id, HttpServletRequest request){
         postService.likePost(id, false, request);
-        return "redirect:/timeline";
+        String referrer = request.getHeader("referer").substring(21);
+
+        return "redirect:" + referrer;
     }
 
     @GetMapping("/add")

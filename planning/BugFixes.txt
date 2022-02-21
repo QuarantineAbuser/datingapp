@@ -7,8 +7,15 @@ TO DO:
 - maybe add block function(cant like or interest them), they cant see your profile
 - Add calendar choosing date of birth, which calculates the age in the end
 - Make input checks like phonenumbers and stuff
-- When trying to /login or /register while logged in (request.remoteuser != null) redirect them
+- (DONE) When trying to /login or /register while logged in redirect them
 back to main page
 - Filter posts by some date, user, sort by likes.
 - Static User in data initializer on every login so I dont use requests all the time.
 - Maybe choose if post is only for matched
+- Message system with String where I append -> ActiveUser: + "content\n"
+
+- Add apostrophe to profile timeline
+- Add link to users name top right
+- Fix redirects to pages
+- Is this enough already without messages?
+- Error when liking more than 1 post

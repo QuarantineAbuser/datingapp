@@ -81,7 +81,7 @@ public class UserServiceImpl implements UserService {
         User activeUser = this.findByUsername(username);
         List<User> users = this.findAll(username);
         users.removeAll(activeUser.getInterestedIn());
-        users.removeAll(activeUser.getLikes());
+        //users.removeAll(activeUser.getLikes());
         users.removeAll(this.findLikedByFor(username));
 
         return users;

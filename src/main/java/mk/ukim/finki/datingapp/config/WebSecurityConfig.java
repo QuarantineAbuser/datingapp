@@ -30,7 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/login").permitAll()
                 .failureUrl("/login?=BadCredentials")
-                .defaultSuccessUrl("/users", true)
+                .defaultSuccessUrl("/timeline", true)
                 .and()
                 .logout()
                 .logoutUrl("/logout")
