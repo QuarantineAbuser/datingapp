@@ -81,7 +81,6 @@ public class UserServiceImpl implements UserService {
         User activeUser = this.findByUsername(username);
         List<User> users = this.findAll(username);
         users.removeAll(activeUser.getInterestedIn());
-        //users.removeAll(activeUser.getLikes());
         users.removeAll(this.findLikedByFor(username));
 
         return users;
@@ -177,6 +176,26 @@ public class UserServiceImpl implements UserService {
             userRepository.save(user1);
             userRepository.save(user2);
         }
+    }
+
+    @Override
+    public List<User> filterUsers(List<User> users, String keyword, String age, String city, String sex, String username) {
+        List<User> filteredUsers = users;
+        if(keyword != null && !keyword.isEmpty())
+            filteredUsers = userRepository.findAllByNameContainsOrSurnameContains(keyword, keyword);
+        if(age != null && !age.isEmpty())
+            filteredUsers = filteredUsers.stream().filter(u -> u.getAge() == Integer.parseInt(age)).collect(Collectors.toList());
+        if(city != null && !city.isEmpty())
+            filteredUsers = filteredUsers.stream().filter(u -> u.getCity().equals(city)).collect(Collectors.toList());
+        if(sex != null && !sex.isEmpty() && !sex.equals("ALL"))
+            filteredUsers = filteredUsers.stream().filter(u -> u.getSex().name().equals(sex)).collect(Collectors.toList());
+
+        User activeUser = this.findByUsername(username);
+        filteredUsers.remove(activeUser);
+        filteredUsers.removeAll(activeUser.getInterestedIn());
+        filteredUsers.removeAll(this.findLikedByFor(username));
+
+        return filteredUsers;
     }
 
     @Override

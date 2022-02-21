@@ -20,7 +20,7 @@
                         </thead>
                         <tbody>
                         <tr th:each="user : ${users}">
-                            <td><a th:text="${user.getName()}"
+                            <td><a th:text="${user.getNameAndSurname()}"
                                    th:href="@{'/timeline/profile/{username}'
                                    (username=${user.getUsername()})}" class="btn btn-sm btn-link">
                             </a></td>

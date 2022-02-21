@@ -34,11 +34,11 @@ public interface UserService extends UserDetailsService {
 
     void unlike(String activeUsername, String unlikedUsername);
 
-    //void removeLikedBy(String activeUsername, String username);
-
     void match(User user1, User user2);
 
     void updateMatches(String username);
 
     void unmatch(User user1, User user2);
+
+    List<User> filterUsers(List<User> users, String keyword, String age, String city, String sex, String username);
 }

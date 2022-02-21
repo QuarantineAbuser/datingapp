@@ -2,6 +2,39 @@
     <section class="jumbotron text-center" style="height:30px;margin-top:-5%">
         <div class="container">
             <h3 class="jumbotron-heading">Users</h3>
+            <form class="form-inline my-2 my-lg-0" action="/users" style="padding-top: 21px">
+                <div class="input-group input-group-sm">
+                    <input type="text" id="keyword" name="keyword"
+                           th:value="${keyword != null} ? ${keyword} : null"
+                           class="form-control" aria-label="Small"
+                           aria-describedby="inputGroup-sizing-sm"
+                           placeholder="Search">
+                    <input type="text" id="age" name="age"
+                           th:value="${age != null} ? ${age} : null"
+                           class="form-control" aria-label="Small"
+                           aria-describedby="inputGroup-sizing-sm"
+                           placeholder="Age">
+                    <input type="text" id="city" name="city"
+                           th:value="${city != null} ? ${city} : null"
+                           class="form-control" aria-label="Small"
+                           aria-describedby="inputGroup-sizing-sm"
+                           placeholder="City">
+                    <input name="sex" type="radio" id="MALE" value="MALE" th:checked="${sex != null && sex.equals('MALE')}">
+                    <label for="MALE">Male</label>
+                    <input name="sex"  type="radio" id="FEMALE" value="FEMALE" th:checked="${sex != null && sex.equals('FEMALE')}">
+                    <label for="FEMALE">Female</label>
+                    <input name="sex"  type="radio" id="ALL" value="ALL" th:checked="${sex == null || sex.equals('ALL')}">
+                    <label for="ALL">All</label>
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-secondary btn-number">
+                            <i class="fa fa-search">Filter</i>
+                        </button>
+                        <a th:href="@{'/users?keyword=&age=&city=&sex=ALL'}" class="btn btn-secondary btn-danger">
+                            <i class="fa fa-search">Clear</i>
+                        </a>
+                    </div>
+                </div>
+            </form>
         </div>
     </section>
 
@@ -20,7 +53,7 @@
                         </thead>
                         <tbody>
                         <tr th:each="user : ${users}">
-                            <td><a th:text="${user.getName()}"
+                            <td><a th:text="${user.getNameAndSurname()}"
                                    th:href="@{'/timeline/profile/{username}'
                                    (username=${user.getUsername()})}" class="btn btn-sm btn-link">
                             </a></td>
@@ -33,6 +66,18 @@
                                       th:method="DELETE">
                                     <button type="submit" class="btn btn-sm btn-success"><i
                                             class="fa fa-trash">Interested</i></button>
+                                </form>
+                                <form th:if="${activeUser.getLikes().contains(user)} == false"
+                                      th:action="@{'/users/like/{username}' (username=${user.getUsername()})}"
+                                      th:method="DELETE">
+                                    <button type="submit" class="btn btn-sm btn-success"><i
+                                            class="fa fa-trash">Like</i></button>
+                                </form>
+                                <form th:if="${activeUser.getLikes().contains(user)} == true"
+                                      th:action="@{'/users/unlike/{username}' (username=${user.getUsername()})}"
+                                      th:method="DELETE">
+                                    <button type="submit" class="btn btn-sm btn-danger"><i
+                                            class="fa fa-trash">Unlike</i></button>
                                 </form>
                             </td>
                         </tr>

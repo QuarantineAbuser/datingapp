@@ -35,10 +35,25 @@ public class UserController {
     }
 
     @GetMapping()
-    public String getUsersPage(Model model, HttpServletRequest request){
+    public String getUsersPage(@RequestParam(required = false) String keyword,
+                               @RequestParam(required = false) String age,
+                               @RequestParam(required = false) String city,
+                               @RequestParam(required = false) String sex,
+                               Model model, HttpServletRequest request){
+
         List<User> users = userService.findUsersFor(request.getRemoteUser());
+        if((keyword != null && !keyword.isEmpty())
+        || (age != null && !age.isEmpty())
+        || (city != null && !city.isEmpty())
+        || (sex != null && !sex.isEmpty())){
+            users = userService.filterUsers(users, keyword, age, city, sex, request.getRemoteUser());
+        }
 
         model.addAttribute("users", users);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("age", age);
+        model.addAttribute("city", city);
+        model.addAttribute("sex", sex);
         model.addAttribute("bodyContent", "users_page");
         return "master-template";
     }
@@ -75,6 +90,7 @@ public class UserController {
     @DeleteMapping( "/interested/{username}")
     public String addInterest(@PathVariable String username, HttpServletRequest request){
         userService.interested(request.getRemoteUser(), username);
+
         String referrer = request.getHeader("referer").substring(21);
 
         return "redirect:" + referrer;
