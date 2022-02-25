@@ -1,38 +1,41 @@
+<!--suppress ALL -->
 <header>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="/timeline">DATING APP</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
-                    aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand" th:href="@{'/timeline'}">DATING APP</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault"
+                    aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
             <div class="collapse navbar-collapse justify-content-end" id="navbarsExampleDefault">
                 <ul class="navbar-nav m-auto">
                     <li class="nav-item m-auto">
-                        <a class="nav-link active" href="/users">USERS</a>
+                        <a class="nav-link active" th:href="@{'/users'}">USERS</a>
                     </li>
                     <li class="nav-item m-auto">
-                        <a class="nav-link active" href="/users/interested">INTERESTED</a>
+                        <a class="nav-link active" th:href="@{'/users/interested'}">INTERESTED</a>
                     </li>
                     <li class="nav-item m-auto">
-                        <a class="nav-link active" href="/users/likedBy">LIKES</a>
+                        <a class="nav-link active" th:href="@{'/users/likedBy'}">LIKES</a>
                     </li>
                     <li class="nav-item m-auto">
-                        <a class="nav-link active" href="/users/matches">MATCHES</a>
+                        <a class="nav-link active" th:href="@{'/users/matches'}">MATCHES</a>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-
                     <li class="nav-item" style="color:white">
-                        <a class="nav-link" th:if="${activeUser != null}" th:href="@{'/timeline/profile/{username}'
-                                   (username=${activeUser.getUsername()})}">
+                        <a class="nav-link"
+                           th:if="${activeUser != null}"
+                           th:href="@{'/timeline/profile/{username}'
+                           (username=${activeUser.getUsername()})}">
                             <th:block th:text="${#request.getRemoteUser() != null}
                                                 ? ${'Welcome, ' + activeUser.getName()}">
                             </th:block>
                         </a>
-                        <th:block th:text="${#request.getRemoteUser() == null}
-                                                ? ${'Welcome, stranger!'}">
+                        <th:block
+                                th:text="${#request.getRemoteUser() == null}
+                                ? ${'Welcome, stranger!'}">
                         </th:block>
                     </li>
                 </ul>

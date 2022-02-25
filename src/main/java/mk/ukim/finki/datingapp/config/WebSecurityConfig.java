@@ -18,7 +18,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         this.authenticationProvider = authenticationProvider;
     }
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
@@ -29,7 +28,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/login").permitAll()
-                .failureUrl("/login?=BadCredentials")
+                .failureUrl("/login?error=Bad%20Credentials!")
                 .defaultSuccessUrl("/timeline", true)
                 .and()
                 .logout()
@@ -45,7 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(authenticationProvider);
     }
 }

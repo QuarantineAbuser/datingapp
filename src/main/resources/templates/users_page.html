@@ -1,32 +1,30 @@
-<div xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <section class="jumbotron text-center" style="height:30px;margin-top:-5%">
-        <div class="container">
-            <h3 class="jumbotron-heading">Users</h3>
-            <form class="form-inline my-2 my-lg-0" action="/users" style="padding-top: 21px">
+<!--suppress ALL -->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <section class="row pt-2 pb-2" style="background-image: linear-gradient(rebeccapurple,mediumpurple)">
+        <div class="container align-middle">
+            <h3 class="jumbotron-heading text-left font-weight-bolder w-25 float-left">Users</h3>
+            <form class="form-inline w-75 float-right" th:action="@{'/users'}">
                 <div class="input-group input-group-sm">
-                    <input type="text" id="keyword" name="keyword"
-                           th:value="${keyword != null} ? ${keyword} : null"
-                           class="form-control" aria-label="Small"
-                           aria-describedby="inputGroup-sizing-sm"
-                           placeholder="Search">
-                    <input type="text" id="age" name="age"
-                           th:value="${age != null} ? ${age} : null"
-                           class="form-control" aria-label="Small"
-                           aria-describedby="inputGroup-sizing-sm"
+                    <input type="text" id="keyword" name="keyword" th:value="${keyword != null} ? ${keyword} : null"
+                           class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+                           placeholder="Name/Surname">
+                    <input type="text" id="age" name="age" th:value="${age != null} ? ${age} : null"
+                           class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
                            placeholder="Age">
-                    <input type="text" id="city" name="city"
-                           th:value="${city != null} ? ${city} : null"
-                           class="form-control" aria-label="Small"
-                           aria-describedby="inputGroup-sizing-sm"
+                    <input type="text" id="city" name="city" th:value="${city != null} ? ${city} : null"
+                           class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
                            placeholder="City">
-                    <input name="sex" type="radio" id="MALE" value="MALE" th:checked="${sex != null && sex.equals('MALE')}">
+                    <input name="sex" type="radio" id="MALE" value="MALE"
+                           th:checked="${sex != null && sex.equals('MALE')}" class="align-self-center">
                     <label for="MALE">Male</label>
-                    <input name="sex"  type="radio" id="FEMALE" value="FEMALE" th:checked="${sex != null && sex.equals('FEMALE')}">
+                    <input name="sex"  type="radio" id="FEMALE" value="FEMALE"
+                           th:checked="${sex != null && sex.equals('FEMALE')}" class="align-self-center">
                     <label for="FEMALE">Female</label>
-                    <input name="sex"  type="radio" id="ALL" value="ALL" th:checked="${sex == null || sex.equals('ALL')}">
+                    <input name="sex"  type="radio" id="ALL" value="ALL"
+                           th:checked="${sex == null || sex.equals('ALL')}" class="align-self-center">
                     <label for="ALL">All</label>
                     <div class="input-group-append">
-                        <button type="submit" class="btn btn-secondary btn-number">
+                        <button type="submit" class="btn btn-secondary btn-info ml-1 mr-1">
                             <i class="fa fa-search">Filter</i>
                         </button>
                         <a th:href="@{'/users?keyword=&age=&city=&sex=ALL'}" class="btn btn-secondary btn-danger">
@@ -37,11 +35,10 @@
             </form>
         </div>
     </section>
-
-    <div class="container mb-4">
+    <div class="container mb-4" style="min-height: 250px">
         <div class="row">
             <div class="col-12" th:if="${users.size() > 0}">
-                <div class="table-responsive">
+                <div class="table-responsive" style="background-color: #FDE3E3;">
                     <table class="table table-striped">
                         <thead>
                         <tr>
@@ -54,30 +51,28 @@
                         <tbody>
                         <tr th:each="user : ${users}">
                             <td><a th:text="${user.getNameAndSurname()}"
-                                   th:href="@{'/timeline/profile/{username}'
-                                   (username=${user.getUsername()})}" class="btn btn-sm btn-link">
-                            </a></td>
+                                   th:href="@{'/timeline/profile/{username}'(username=${user.getUsername()})}"
+                                   class="btn btn-sm btn-link"></a></td>
                             <td th:text="${user.getAge()}"></td>
                             <td th:text="${user.getSex()}"></td>
-                            <td th:text="${user.getBio() != null}
-                            ? ${user.getBio()} : 'No Bio'"></td>
+                            <td th:text="${user.getBio() != null} ? ${user.getBio()} : 'No Bio'"></td>
                             <td class="text-right">
                                 <form th:action="@{'/users/interested/{username}' (username=${user.getUsername()})}"
-                                      th:method="DELETE">
-                                    <button type="submit" class="btn btn-sm btn-success"><i
-                                            class="fa fa-trash">Interested</i></button>
+                                      th:method="PUT">
+                                    <button type="submit" class="btn btn-sm btn-success">
+                                        <i class="fa fa-trash">Interested</i></button>
                                 </form>
                                 <form th:if="${activeUser.getLikes().contains(user)} == false"
                                       th:action="@{'/users/like/{username}' (username=${user.getUsername()})}"
-                                      th:method="DELETE">
-                                    <button type="submit" class="btn btn-sm btn-success"><i
-                                            class="fa fa-trash">Like</i></button>
+                                      th:method="PUT">
+                                    <button type="submit" class="btn btn-sm btn-success">
+                                        <i class="fa fa-trash">Like</i></button>
                                 </form>
                                 <form th:if="${activeUser.getLikes().contains(user)} == true"
                                       th:action="@{'/users/unlike/{username}' (username=${user.getUsername()})}"
                                       th:method="DELETE">
-                                    <button type="submit" class="btn btn-sm btn-danger"><i
-                                            class="fa fa-trash">Unlike</i></button>
+                                    <button type="submit" class="btn btn-sm btn-danger">
+                                        <i class="fa fa-trash">Unlike</i></button>
                                 </form>
                             </td>
                         </tr>
@@ -85,9 +80,9 @@
                     </table>
                 </div>
             </div>
-            <div class="col-12" th:if="${users.size() == 0}">
+            <div class="col-12 pt-5" th:if="${users.size() == 0}">
                 <h4 class="jumbotron-heading text-center">No users found!</h4>
             </div>
         </div>
     </div>
-</div>
+</html>

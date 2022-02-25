@@ -5,16 +5,18 @@ import mk.ukim.finki.datingapp.models.enumerations.Role;
 import mk.ukim.finki.datingapp.models.enumerations.Sex;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService extends UserDetailsService {
 
-    User register(String username, String password, String repeatPassword,
+    void register(String username, String password, String repeatPassword,
                   String name, String surname, Role role,
                   int age, String bio, String city, Sex sex, String phoneNumber);
 
-    List<User> findAll(String activeUsername);
+    List<User> findAllUsers(String activeUsername);
+
+    List<User> findAllAdmins();
 
     List<User> findUsersFor(String username);
 
@@ -22,23 +24,17 @@ public interface UserService extends UserDetailsService {
 
     List<User> findLikedByFor(String username);
 
-    User findByUsername(String username);
+    Optional<User> findByUsername(String username);
 
-    User getActiveUser(HttpServletRequest request);
+    User getActiveUser();
 
-    void interested(String activeUsername,String interestedUsername);
+    void interest(String username, String otherUsername, boolean interest);
 
-    void uninterested(String activeUsername, String uninterestedUsername);
+    void like(String username, String otherUsername, boolean like);
 
-    void like(String activeUsername, String likedUsername);
-
-    void unlike(String activeUsername, String unlikedUsername);
-
-    void match(User user1, User user2);
+    void match(User user1, User user2, boolean match);
 
     void updateMatches(String username);
 
-    void unmatch(User user1, User user2);
-
-    List<User> filterUsers(List<User> users, String keyword, String age, String city, String sex, String username);
+    List<User> filterUsers(List<User> users, String keyword, String age, String city, String sex);
 }

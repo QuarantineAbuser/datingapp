@@ -24,12 +24,12 @@ public class CustomUsernamePasswordAuthenticationProvider implements Authenticat
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
-        if(username.isEmpty() || password.isEmpty())
+        if (username.isEmpty() || password.isEmpty())
             throw new BadCredentialsException("Bad credentials!");
         UserDetails userDetails = userService.loadUserByUsername(username);
-        if(!passwordEncoder.matches(password,userDetails.getPassword()))
+        if (!passwordEncoder.matches(password, userDetails.getPassword()))
             throw new BadCredentialsException("Bad credentials!");
-        return new UsernamePasswordAuthenticationToken(userDetails,userDetails.getPassword(),
+        return new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(),
                 userDetails.getAuthorities());
     }
 

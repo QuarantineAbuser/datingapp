@@ -10,8 +10,14 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/logout")
 public class LogoutController {
 
+    private final HttpServletRequest request;
+
+    public LogoutController(HttpServletRequest request) {
+        this.request = request;
+    }
+
     @GetMapping
-    public String logout(HttpServletRequest request){
+    public String logout(){
         request.getSession().invalidate();
         return "redirect:/login";
     }

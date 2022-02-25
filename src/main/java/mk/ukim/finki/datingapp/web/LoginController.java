@@ -1,8 +1,7 @@
 package mk.ukim.finki.datingapp.web;
 
-import mk.ukim.finki.datingapp.config.DataInitializer;
-import mk.ukim.finki.datingapp.models.User;
 import mk.ukim.finki.datingapp.models.exceptions.InvalidUserCredentialsException;
+import mk.ukim.finki.datingapp.models.exceptions.UserNotFoundException;
 import mk.ukim.finki.datingapp.service.AuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,12 +18,19 @@ public class LoginController {
 
     private final AuthService authService;
 
-    public LoginController(AuthService authService) {
+    private final HttpServletRequest request;
+
+    public LoginController(AuthService authService, HttpServletRequest request) {
         this.authService = authService;
+        this.request = request;
     }
 
     @GetMapping
-    public String getLoginPage(Model model, HttpServletRequest request) {
+    public String getLoginPage(@RequestParam(required = false) String error, Model model) {
+        if (error != null && !error.isEmpty()) {
+            model.addAttribute("hasError", true);
+            model.addAttribute("error", error);
+        }
         if(request.getRemoteUser() != null)
             return "redirect:/timeline";
         model.addAttribute("bodyContent","login");
@@ -32,18 +38,12 @@ public class LoginController {
     }
 
     @PostMapping
-    public String login(@RequestParam String username, @RequestParam String password, HttpServletRequest request,
-                        Model model) {
-        User user;
+    public String login(@RequestParam String username, @RequestParam String password) {
         try {
-            user = authService.login(username, password);
-            request.getSession().setAttribute("user", user);
-            DataInitializer.ACTIVE_USER = user;
+            authService.login(username, password);
             return "redirect:/timeline";
         } catch (InvalidUserCredentialsException e) {
-            model.addAttribute("hasError", true);
-            model.addAttribute("error", e.getMessage());
-            return "login";
+            return "redirect:/login?error=" + e.getMessage();
         }
     }
 }

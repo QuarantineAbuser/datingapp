@@ -1,21 +1,26 @@
-<footer class="text-black-50 mt-xl-5">
+<!--suppress ALL -->
+<footer class="text-black">
     <div class="container">
         <div class="row">
-            <div class="col-md-3 col-lg-4 col-xl-3 mr-5">
-                <h5>About</h5>
+            <div class="w-75 float-left">
+                <h5>Made by</h5>
                 <hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-25">
                 <p class="mb-0">
-                    Will be added
+                    Stefan Mitrevski, 195091
                 </p>
             </div>
-
-            <div class="col-md-2 col-lg-2 col-xl-2 ml-5 mx-auto">
+            <div class="w-25 float-righ text-right">
                 <h5>Settings</h5>
-                <hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-25">
-                <ul class="list-unstyled">
+                <hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-50">
+                <ul class="list-unstyled" th:if="${activeUser != null}">
                     <li class="nav-item">
-                        <a class="btn btn-danger btn-sm ml-3" href="/logout">
-                            <i class="fa fa-shopping-cart"></i> Logout
+                        <a class="btn btn-sm btn-dark ml-1 fixedButtonSize"
+                           th:href="@{'/logout'}">
+                            <i class="fa fa-shopping-cart">Logout</i>
+                        </a>
+                        <a class="btn btn-sm btn-dark ml-1 fixedButtonSize"
+                           th:href="@{'/register'}">
+                            <i class="fa fa-shopping-cart">Register</i>
                         </a>
                     </li>
                 </ul>

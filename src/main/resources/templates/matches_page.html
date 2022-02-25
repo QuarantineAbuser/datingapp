@@ -1,14 +1,14 @@
-<div xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <section class="jumbotron text-center" style="height:30px;margin-top:-5%">
-        <div class="container">
-            <h3 class="jumbotron-heading">My matches</h3>
-        </div>
-    </section>
-
-    <div class="container mb-4">
-        <div class="row">
-            <div class="col-12" th:if="${users.size() > 0}">
-                <div class="table-responsive">
+<!--suppress ALL -->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<section class="row pt-2 pb-2" style="background-image: linear-gradient(rebeccapurple,mediumpurple)">
+    <div class="container align-middle">
+        <h3 class="jumbotron-heading text-center font-weight-bolder">My Matches</h3>
+    </div>
+</section>
+<div class="container mb-4" style="min-height: 250px">
+    <div class="row">
+        <div class="col-12" th:if="${users.size() > 0}">
+            <div class="table-responsive" style="background-color: #FDE3E3;">
                     <table class="table table-striped">
                         <thead>
                         <tr>
@@ -22,9 +22,8 @@
                         <tbody>
                         <tr th:each="user : ${users}">
                             <td><a th:text="${user.getNameAndSurname()}"
-                                   th:href="@{'/timeline/profile/{username}'
-                                   (username=${user.getUsername()})}" class="btn btn-sm btn-link">
-                            </a></td>
+                                   th:href="@{'/timeline/profile/{username}'(username=${user.getUsername()})}"
+                                   class="btn btn-sm btn-link"></a></td>
                             <td th:text="${user.getAge()}"></td>
                             <td th:text="${user.getSex()}"></td>
                             <td th:text="${user.getCity()}"></td>
@@ -32,8 +31,8 @@
                             <td class="text-right">
                                 <form th:action="@{'/users/unlike/{username}' (username=${user.getUsername()})}"
                                       th:method="DELETE">
-                                    <button type="submit" class="btn btn-sm btn-danger"><i
-                                            class="fa fa-trash">Unlike</i></button>
+                                    <button type="submit" class="btn btn-sm btn-danger">
+                                        <i class="fa fa-trash">Unlike</i></button>
                                 </form>
                             </td>
                         </tr>
@@ -41,9 +40,9 @@
                     </table>
                 </div>
             </div>
-            <div class="col-12" th:if="${users.size() == 0}">
+            <div class="col-12 pt-5" th:if="${users.size() == 0}">
                 <h4 class="jumbotron-heading text-center">Your list is empty!</h4>
             </div>
         </div>
     </div>
-</div>
+</html>

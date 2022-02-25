@@ -2,6 +2,8 @@ package mk.ukim.finki.datingapp.web;
 
 import mk.ukim.finki.datingapp.models.Post;
 import mk.ukim.finki.datingapp.models.User;
+import mk.ukim.finki.datingapp.models.exceptions.InvalidPostException;
+import mk.ukim.finki.datingapp.models.exceptions.UserNotFoundException;
 import mk.ukim.finki.datingapp.service.PostService;
 import mk.ukim.finki.datingapp.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -19,17 +21,22 @@ public class TimelineController {
 
     private final UserService userService;
 
-    public TimelineController(PostService postService, UserService userService) {
+    private final HttpServletRequest request;
+
+    public TimelineController(PostService postService, UserService userService, HttpServletRequest request) {
         this.postService = postService;
         this.userService = userService;
+        this.request = request;
     }
 
-    @ModelAttribute
-    void headerAttributes(Model model, HttpServletRequest request){
-        User activeUser = userService.getActiveUser(request);
+    private String reloadPage() {
+        String referrer = request.getHeader("referer").substring(21);
+        return "redirect:" + referrer;
+    }
 
-        model.addAttribute("activeUser", activeUser);
-        model.addAttribute("fragments/header", "activeUser");
+    @ModelAttribute("activeUser")
+    public User activeUser(){
+        return userService.getActiveUser();
     }
 
     @GetMapping()
@@ -42,38 +49,47 @@ public class TimelineController {
 
     @GetMapping("/profile/{username}")
     public String getProfilePage(@PathVariable String username, Model model){
-        User user = userService.findByUsername(username);
+        User user = userService.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException(username));
+
         model.addAttribute("user", user);
         model.addAttribute("posts", user.getPosts());
         model.addAttribute("bodyContent", "profile_timeline");
         return "master-template";
     }
 
-    @DeleteMapping("/like/{id}")
-    public String likePost(@PathVariable Long id, HttpServletRequest request){
-        postService.likePost(id, true, request);
-        String referrer = request.getHeader("referer").substring(21);
+    @PutMapping("/like/{id}")
+    public String likePost(@PathVariable Long id){
+        postService.likePost(id, true);
+        return reloadPage();
 
-        return "redirect:" + referrer;
     }
 
     @DeleteMapping("/unlike/{id}")
-    public String unlikePost(@PathVariable Long id, HttpServletRequest request){
-        postService.likePost(id, false, request);
-        String referrer = request.getHeader("referer").substring(21);
+    public String unlikePost(@PathVariable Long id){
+        postService.likePost(id, false);
+        return reloadPage();
 
-        return "redirect:" + referrer;
     }
 
     @GetMapping("/add")
-    public String addPostForm(Model model){
+    public String addPostForm(@RequestParam(required = false) String error, Model model){
+        if (error != null && !error.isEmpty()) {
+            model.addAttribute("hasError", true);
+            model.addAttribute("error", error);
+        }
         model.addAttribute("bodyContent","add_post_form");
         return "master-template";
     }
 
     @PostMapping("/add")
-    public String addPost(@RequestParam String content, HttpServletRequest request){
-        postService.addPost(content, request);
+    public String addPost(@RequestParam String content){
+        try {
+            postService.addPost(content);
+        }
+        catch (InvalidPostException e){
+            return "redirect:/add?error=" + e.getMessage();
+        }
         return "redirect:/timeline";
     }
 }

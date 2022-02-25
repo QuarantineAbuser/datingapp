@@ -2,8 +2,7 @@ package mk.ukim.finki.datingapp.web;
 
 import mk.ukim.finki.datingapp.models.enumerations.Role;
 import mk.ukim.finki.datingapp.models.enumerations.Sex;
-import mk.ukim.finki.datingapp.models.exceptions.InvalidArgumentsException;
-import mk.ukim.finki.datingapp.models.exceptions.PasswordsDoNotMatchException;
+import mk.ukim.finki.datingapp.models.exceptions.*;
 import mk.ukim.finki.datingapp.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,8 +22,7 @@ public class RegisterController {
     }
 
     @GetMapping
-    public String getRegisterPage(@RequestParam(required = false) String error,
-                                  Model model) {
+    public String getRegisterPage(@RequestParam(required = false) String error, Model model) {
         if (error != null && !error.isEmpty()) {
             model.addAttribute("hasError", true);
             model.addAttribute("error", error);
@@ -43,13 +41,17 @@ public class RegisterController {
                            @RequestParam String bio,
                            @RequestParam String city,
                            @RequestParam Sex sex,
-                           @RequestParam Role role,
+                           @RequestParam(required = false) Role role,
                            @RequestParam String phoneNumber) {
         try {
+            if(role == null)
+                role = Role.ROLE_USER;
+
             userService.register(username, password, repeatedPassword,
                     name, surname, role, age, bio, city, sex, phoneNumber);
             return "redirect:/login";
-        } catch (InvalidArgumentsException | PasswordsDoNotMatchException e) {
+        } catch (UsernameAlreadyExistsException | PasswordsDoNotMatchException
+                | InvalidArgumentsException | InvalidAgeException | WeakPasswordException e) {
             return "redirect:/register?error=" + e.getMessage();
         }
     }

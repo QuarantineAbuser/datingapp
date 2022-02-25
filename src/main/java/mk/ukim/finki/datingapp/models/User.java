@@ -123,20 +123,8 @@ public class User implements UserDetails {
         this.name = name;
     }
 
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
     public Role getRole() {
         return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
     }
 
     public List<User> getLikes() {
@@ -151,20 +139,21 @@ public class User implements UserDetails {
         this.age = age;
     }
 
+    @SuppressWarnings("unused")
     public String getBio() {
         return bio;
     }
-
-    public void setBio(String bio) {
-        this.bio = bio;
+    @SuppressWarnings("unused")
+    public String getNameAndSurname(){
+        return name + " " + surname;
+    }
+    @SuppressWarnings("unused")
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
     public String getCity() {
         return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
     }
 
     public Sex getSex() {
@@ -173,14 +162,6 @@ public class User implements UserDetails {
 
     public void setSex(Sex sex) {
         this.sex = sex;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
     }
 
     public void addLikes(User user) {
@@ -205,13 +186,5 @@ public class User implements UserDetails {
 
     public List<Post> getPosts() {
         return posts;
-    }
-
-    public void addPost(Post post) {
-        this.posts.add(post);
-    }
-
-    public String getNameAndSurname(){
-        return name + " " + surname;
     }
 }

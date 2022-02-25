@@ -7,7 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
@@ -16,22 +15,21 @@ public class UserController {
 
     private final UserService userService;
 
-    public UserController(UserService userService) {
+    private final HttpServletRequest request;
+
+    public UserController(UserService userService, HttpServletRequest request) {
         this.userService = userService;
+        this.request = request;
     }
 
-//    public String reloadPage(HttpServletRequest request){
-//        //HttpServletRequest request
-//        String referrer = request.getHeader("referer").substring(21);
-//        return "redirect:" + referrer;
-//    }
+    public String reloadPage() {
+        String referrer = request.getHeader("referer").substring(21);
+        return "redirect:" + referrer;
+    }
 
-    @ModelAttribute
-    void headerAttributes(Model model, HttpServletRequest request){
-        User activeUser = userService.getActiveUser(request);
-
-        model.addAttribute("activeUser", activeUser);
-        model.addAttribute("fragments/header", "activeUser");
+    @ModelAttribute("activeUser")
+    public User activeUser(){
+        return userService.getActiveUser();
     }
 
     @GetMapping()
@@ -39,14 +37,14 @@ public class UserController {
                                @RequestParam(required = false) String age,
                                @RequestParam(required = false) String city,
                                @RequestParam(required = false) String sex,
-                               Model model, HttpServletRequest request){
+                               Model model) {
 
-        List<User> users = userService.findUsersFor(request.getRemoteUser());
-        if((keyword != null && !keyword.isEmpty())
-        || (age != null && !age.isEmpty())
-        || (city != null && !city.isEmpty())
-        || (sex != null && !sex.isEmpty())){
-            users = userService.filterUsers(users, keyword, age, city, sex, request.getRemoteUser());
+        List<User> users = userService.findUsersFor(userService.getActiveUser().getUsername());
+        if ((keyword != null && !keyword.isEmpty())
+                || (age != null && !age.isEmpty())
+                || (city != null && !city.isEmpty())
+                || (sex != null && !sex.isEmpty())) {
+            users = userService.filterUsers(users, keyword, age, city, sex);
         }
 
         model.addAttribute("users", users);
@@ -58,75 +56,65 @@ public class UserController {
         return "master-template";
     }
 
-    @GetMapping( "/interested")
-    public String getInterestedInPage(Model model, HttpServletRequest request){
-        List<User> interestedIn = userService.findInterestedFor(request.getRemoteUser());
+    @GetMapping("/interested")
+    public String getInterestedInPage(Model model) {
+        List<User> interestedIn = userService.findInterestedFor(userService.getActiveUser().getUsername());
 
         model.addAttribute("users", interestedIn);
         model.addAttribute("bodyContent", "interested_page");
         return "master-template";
     }
 
-    @GetMapping( "/likedBy")
-    public String getLikedByPage(Model model, HttpServletRequest request){
-        List<User> likedBy = userService.findLikedByFor(request.getRemoteUser());
+    @GetMapping("/likedBy")
+    public String getLikedByPage(Model model) {
+        List<User> likedBy = userService.findLikedByFor(userService.getActiveUser().getUsername());
 
         model.addAttribute("users", likedBy);
         model.addAttribute("bodyContent", "likedBy_page");
         return "master-template";
     }
 
-    @GetMapping( "/matches")
-    public String getMatchesPage(Model model, HttpServletRequest request){
-        User activeUser = userService.getActiveUser(request);
-        userService.updateMatches(request.getRemoteUser());
-        List<User> matches = activeUser.getMatched();
+    @GetMapping("/matches")
+    public String getMatchesPage(Model model) {
+        userService.updateMatches(userService.getActiveUser().getUsername());
+        List<User> matches = userService.getActiveUser().getMatched();
 
         model.addAttribute("users", matches);
         model.addAttribute("bodyContent", "matches_page");
         return "master-template";
     }
 
-    @DeleteMapping( "/interested/{username}")
-    public String addInterest(@PathVariable String username, HttpServletRequest request){
-        userService.interested(request.getRemoteUser(), username);
-
-        String referrer = request.getHeader("referer").substring(21);
-
-        return "redirect:" + referrer;
+    @PutMapping("/interested/{username}")
+    public String addInterest(@PathVariable String username) {
+        userService.interest(userService.getActiveUser().getUsername(), username, true);
+        return reloadPage();
     }
 
-    @DeleteMapping( "/uninterested/{username}")
-    public String removeInterest(@PathVariable String username,HttpServletRequest request){
-        userService.uninterested(request.getRemoteUser(), username);
-        String referrer = request.getHeader("referer").substring(21);
+    @DeleteMapping("/uninterested/{username}")
+    public String removeInterest(@PathVariable String username) {
+        userService.interest(userService.getActiveUser().getUsername(), username, false);
+        return reloadPage();
 
-        return "redirect:" + referrer;
     }
 
-    @DeleteMapping( "/like/{username}")
-    public String addLiked(@PathVariable String username,HttpServletRequest request){
-        userService.like(request.getRemoteUser(), username);
-
-        String referrer = request.getHeader("referer").substring(21);
-
-        return "redirect:" + referrer;
+    @PutMapping("/like/{username}")
+    public String addLiked(@PathVariable String username) {
+        userService.like(userService.getActiveUser().getUsername(), username, true);
+        return reloadPage();
     }
 
-    @DeleteMapping( "/unlike/{username}")
-    public String removeLiked(@PathVariable String username,HttpServletRequest request){
-        userService.unlike(request.getRemoteUser(), username);
-        String referrer = request.getHeader("referer").substring(21);
+    @DeleteMapping("/unlike/{username}")
+    public String removeLiked(@PathVariable String username) {
+        userService.like(userService.getActiveUser().getUsername(), username, false);
+        return reloadPage();
 
-        return "redirect:" + referrer;
     }
-    @DeleteMapping( "/delete/{username}")
-    public String deleteLikedBy(@PathVariable String username,HttpServletRequest request){
-        userService.unlike(username, request.getRemoteUser());
 
-        String referrer = request.getHeader("referer").substring(21);
+    @DeleteMapping("/decline/{username}")
+    public String deleteLikedBy(@PathVariable String username) {
+        userService.like(username, userService.getActiveUser().getUsername(), false);
+        return reloadPage();
 
-        return "redirect:" + referrer;
     }
 
     @GetMapping("/access_denied")

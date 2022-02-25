@@ -1,7 +1,5 @@
 package mk.ukim.finki.datingapp.service.impl;
 
-import mk.ukim.finki.datingapp.models.User;
-import mk.ukim.finki.datingapp.models.exceptions.InvalidArgumentsException;
 import mk.ukim.finki.datingapp.models.exceptions.InvalidUserCredentialsException;
 import mk.ukim.finki.datingapp.repository.UserRepository;
 import mk.ukim.finki.datingapp.service.AuthService;
@@ -17,10 +15,8 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public User login(String username, String password) {
-        if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
-            throw new InvalidArgumentsException();
-        }
-        return userRepository.findByUsernameAndPassword(username, password).orElseThrow(InvalidUserCredentialsException::new);
+    public void login(String username, String password) {
+        userRepository.findByUsernameAndPassword(username, password)
+                .orElseThrow((InvalidUserCredentialsException::new));
     }
 }

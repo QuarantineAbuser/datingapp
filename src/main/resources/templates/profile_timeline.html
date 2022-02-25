@@ -1,31 +1,32 @@
-<div xmlns:th="http://www.thymeleaf.org">
-    <section class="jumbotron text-center" style="height:30px;margin-top:-5%">
-        <div class="container">
-            <h3 class="jumbotron-heading" th:text="${user.getNameAndSurname() + '''s Timeline'}"></h3>
-            <h5 class="jumbotron-heading" th:text="${'(' + user.getAge() + ')'}"></h5>
+<!--suppress ALL -->
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<section class="row pt-2 pb-2" style="background-image: linear-gradient(rebeccapurple,mediumpurple)">
+    <div class="container align-middle">
+            <h3 class="jumbotron-heading text-center font-weight-bolder" th:text="${user.getNameAndSurname() + '''s Timeline'}"></h3>
+            <h5 class="jumbotron-heading text-center font-weight-bolder" th:text="${'(' + user.getAge() + ')'}"></h5>
         </div>
     </section>
-    <div class="text-center" th:text="${user.getBio()}"></div>
-    <hr>
-    <div class="text-center">
+    <div class="text-center" th:text="${'Bio: ' + user.getBio()}"></div>
+    <div class="text-center" th:if="${!activeUser.equals(user)}">
+        <hr>
         <form th:if="${activeUser.getInterestedIn().contains(user)} == false"
               th:action="@{'/users/interested/{username}' (username=${user.getUsername()})}"
               th:method="DELETE">
-            <button type="submit" class="btn btn-sm btn-success"><i
-                    class="fa fa-trash">Interested</i></button>
+            <button type="submit" class="btn btn-sm btn-success">
+                <i class="fa fa-trash">Interested</i></button>
         </form>
         <form th:if="${activeUser.getInterestedIn().contains(user)} == true"
               th:action="@{'/users/uninterested/{username}' (username=${user.getUsername()})}"
               th:method="DELETE">
-            <button type="submit" class="btn btn-sm btn-danger"><i
-                    class="fa fa-trash">Uninterested</i></button>
+            <button type="submit" class="btn btn-sm btn-danger">
+                <i class="fa fa-trash">Uninterested</i></button>
         </form>
+        <hr>
     </div>
-    <hr>
-    <div class="container mb-4">
-        <div class="row">
-            <div class="col-12" th:if="${posts.size() > 0}">
-                <div class="table-responsive">
+<div class="container mb-4" style="min-height: 250px">
+    <div class="row">
+        <div class="col-12" th:if="${posts.size() > 0}">
+            <div class="table-responsive" style="background-color: #FDE3E3;">
                     <table class="table table-striped">
                         <thead>
                         <tr>
@@ -40,20 +41,19 @@
                             <td th:text="${post.getUser().getNameAndSurname()}"></td>
                             <td th:text="${post.getContent()}"></td>
                             <td th:text="${post.getLikes().size()}"></td>
-                            <td th:text="${post.getDateCreated().toString()}"></td>
-
+                            <td th:text="${post.getFormattedDate()}"></td>
                             <td class="text-right">
                                 <form th:if="${post.getLikes().contains(activeUser)} == false"
                                       th:action="@{'/timeline/like/{id}' (id=${post.getId()})}"
-                                      th:method="DELETE">
-                                    <button type="submit" class="btn btn-sm btn-success"><i
-                                            class="fa fa-trash">Like</i></button>
+                                      th:method="PUT">
+                                    <button type="submit" class="btn btn-sm btn-success">
+                                        <i class="fa fa-trash">Like</i></button>
                                 </form>
                                 <form th:if="${post.getLikes().contains(activeUser)} == true"
                                       th:action="@{'/timeline/unlike/{id}' (id=${post.getId()})}"
                                       th:method="DELETE">
-                                    <button type="submit" class="btn btn-sm btn-danger"><i
-                                            class="fa fa-trash">Unlike</i></button>
+                                    <button type="submit" class="btn btn-sm btn-danger">
+                                        <i class="fa fa-trash">Unlike</i></button>
                                 </form>
                             </td>
                         </tr>
@@ -61,9 +61,9 @@
                     </table>
                 </div>
             </div>
-            <div class="col-12" th:if="${posts.size() == 0}">
+            <div class="col-12 pt-5" th:if="${posts.size() == 0}">
                 <h4 class="jumbotron-heading text-center">There are no posts yet!</h4>
             </div>
         </div>
     </div>
-</div>
+</html>

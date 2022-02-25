@@ -2,16 +2,16 @@ package mk.ukim.finki.datingapp.service;
 
 import mk.ukim.finki.datingapp.models.Post;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Optional;
 
 public interface PostService {
 
     List<Post> findAll();
 
-    Post findPostById(Long id);
+    Optional<Post> findById(Long id);
 
-    void addPost(String content, HttpServletRequest request);
+    void addPost(String content);
 
-    void likePost(Long id, boolean like, HttpServletRequest request);
+    void likePost(Long id, boolean like);
 }

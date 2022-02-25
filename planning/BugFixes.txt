@@ -1,20 +1,27 @@
 TO DO:
-- Fix looks
-- Make role choosing in registry only for logged in admins(hide it for users)
-- Add better labels for register page
-- Maybe add pictures to users?
-- 18+ users only
-- maybe add block function(cant like or interest them), they cant see your profile
-- Add calendar choosing date of birth, which calculates the age in the end
-- Make input checks like phonenumbers and stuff
-- (DONE) When trying to /login or /register while logged in redirect them
-back to main page
-- Filter posts by some date, user, sort by likes.
-- Static User in data initializer on every login so I don't use requests all the time.
-- Maybe choose if post is only for matched
-- Message system with String where I append -> ActiveUser: + "content\n"
+- (DONE) When trying to /login while logged in redirect them back to main page.
 - (DONE) Add apostrophe to profile timeline
 - (DONE) Add link to users name top right
-- Fix redirects to pages
+- (DONE) Fix redirects to pages
 - (DONE) Error when liking more than 1 post
-- Filter posts by keywords
+- (DONE) Add new exceptions
+- (DONE) 18+ users only.
+- (DONE) Make input checks(Phone numbers, age etc...).
+- (DONE) Make role choosing in registry only for logged in admins(hide it for users).
+- Add pictures for users.
+- Add block function(Can't like or interest them, they can't see your profile).
+- Add calendar choosing date of birth, which calculates the age in the end.
+- Maybe choose if post is only for matched(Add flag in Post model).
+- Message system with String where I append -> ActiveUser: + "content\n"
+
+PRIORITY:
+- Make timeline accessible for non-authenticated users
+- Filter posts by keywords.
+- Sort posts by date or by likes.
+- Delete post function for posters.
+- Edit profile function for users.
+
+CONSULTATIONS:
+- Httpservletrequest vo constructor?
+- Kade e najdobro da stojat funkcii vo controler?
+- Linkuvanje css

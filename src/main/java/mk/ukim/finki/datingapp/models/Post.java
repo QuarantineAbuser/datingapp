@@ -2,8 +2,10 @@ package mk.ukim.finki.datingapp.models;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Entity
 public class Post {
@@ -67,5 +69,11 @@ public class Post {
 
     public LocalDateTime getDateCreated() {
         return dateCreated;
+    }
+
+    @SuppressWarnings("unused")
+    public String getFormattedDate(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMM, uuu · KK:mm a", Locale.ENGLISH);
+        return getDateCreated().format(formatter);
     }
 }
