@@ -1,72 +1,76 @@
 <!--suppress ALL -->
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<section class="row pt-2 pb-2" style="background-image: linear-gradient(rebeccapurple,mediumpurple)">
+<div class="row pt-2 pb-1 bg-warning">
     <div class="container align-middle">
-        <h3 class="jumbotron-heading text-center font-weight-bolder">You are liked by:</h3>
+        <h3 class="jumbotron-heading text-center font-weight-bolder">LIKED BY</h3>
     </div>
-</section>
-<div class="container mb-4" style="min-height: 250px">
+</div>
+<div class="container mb-4 mt-4 main-container">
     <div class="row">
         <div class="col-12" th:if="${users.size() > 0}">
-            <div class="table-responsive" style="background-color: #FDE3E3;">
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">Age</th>
-                            <th scope="col">Sex</th>
-                            <th scope="col">Bio</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="user : ${users}">
-                            <td><a th:text="${user.getNameAndSurname()}"
-                                   th:href="@{'/timeline/profile/{username}'
-                                   (username=${user.getUsername()})}" class="btn btn-sm btn-link">
-                            </a></td>
-                            <td th:text="${user.getAge()}"></td>
-                            <td th:text="${user.getSex()}"></td>
-                            <td th:text="${user.getBio()}"></td>
-                            <td class="text-right">
-                                <form th:if="${activeUser.getInterestedIn().contains(user)} == false"
-                                      th:action="@{'/users/interested/{username}' (username=${user.getUsername()})}"
-                                      th:method="PUT">
-                                    <button type="submit" class="btn btn-sm btn-success">
-                                        <i class="fa fa-trash">Interested</i></button>
-                                </form>
-                                <form th:if="${activeUser.getInterestedIn().contains(user)} == true"
-                                      th:action="@{'/users/uninterested/{username}' (username=${user.getUsername()})}"
-                                      th:method="DELETE">
-                                    <button type="submit" class="btn btn-sm btn-danger">
-                                        <i class="fa fa-trash">Uninterested</i></button>
-                                </form>
-                                <form th:if="${activeUser.getLikes().contains(user)} == false"
-                                      th:action="@{'/users/like/{username}' (username=${user.getUsername()})}"
-                                      th:method="PUT">
-                                    <button type="submit" class="btn btn-sm btn-success">
-                                        <i class="fa fa-trash">Like back</i></button>
-                                </form>
-                                <form th:if="${activeUser.getLikes().contains(user)} == true"
-                                      th:action="@{'/users/unlike/{username}' (username=${user.getUsername()})}"
-                                      th:method="DELETE">
-                                    <button type="submit" class="btn btn-sm btn-danger">
-                                        <i class="fa fa-trash">Unlike</i></button>
-                                </form>
-                                <form th:if="${activeUser.getLikes().contains(user)} == false"
-                                      th:action="@{'/users/decline/{username}' (username=${user.getUsername()})}"
-                                      th:method="DELETE">
-                                    <button type="submit" class="btn btn-sm btn-danger">
-                                        <i class="fa fa-trash">Delete</i></button>
-                                </form>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="col-12 pt-5" th:if="${users.size() == 0}">
-                <h4 class="jumbotron-heading text-center">Your list is empty!</h4>
-            </div>
+            <table class="table table-hover">
+                <thead class="bg-secondary text-warning">
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Age</th>
+                    <th scope="col">Sex</th>
+                    <th scope="col">Bio</th>
+                    <th scope="col">Options</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="bg-dark text-white" th:each="user : ${users}">
+                    <td><a th:text="${user.getNameAndSurname()}"
+                           th:href="@{'/timeline/profile/{username}' (username=${user.getUsername()})}"
+                           class="text-decoration-none"></a></td>
+                    <td th:text="${user.getAge()}"></td>
+                    <td th:text="${user.getSex()}"></td>
+                    <td th:text="${user.getBio()}"></td>
+                    <td class="row justify-content-center">
+                        <form th:if="${activeUser.getInterestedIn().contains(user)} == false"
+                              th:action="@{'/users/interested/{username}' (username=${user.getUsername()})}"
+                              th:method="PUT" class="d-inline w-auto">
+                            <button type="submit" class="btn btn-sm btn-outline-success">
+                                <i class="fa fa-trash">Interested</i></button>
+                        </form>
+                        <form th:if="${activeUser.getInterestedIn().contains(user)} == true"
+                              th:action="@{'/users/uninterested/{username}' (username=${user.getUsername()})}"
+                              th:method="DELETE" class="d-inline w-auto">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                                <i class="fa fa-trash">Uninterested</i></button>
+                        </form>
+                        <form th:if="${activeUser.getLikes().contains(user)} == false"
+                              th:action="@{'/users/like/{username}' (username=${user.getUsername()})}"
+                              th:method="PUT" class="d-inline w-auto pb-1">
+                            <button type="submit" class="btn btn-sm btn-outline-success">
+                                <i class="fa fa-trash">Like back</i></button>
+                        </form>
+                        <form th:if="${activeUser.getLikes().contains(user)} == true"
+                              th:action="@{'/users/unlike/{username}' (username=${user.getUsername()})}"
+                              th:method="DELETE" class="d-inline w-auto pb-1">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                                <i class="fa fa-trash">Unlike</i></button>
+                        </form>
+                        <form th:if="${activeUser.getLikes().contains(user)} == false"
+                              th:action="@{'/users/decline/{username}' (username=${user.getUsername()})}"
+                              th:method="DELETE" class="d-inline w-auto">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                                <i class="fa fa-trash">Delete</i></button>
+                        </form>
+                        <form th:if="${!activeUser.getLikes().contains(user)} == false"
+                              th:action="@{'/users/decline/{username}' (username=${user.getUsername()})}"
+                              th:method="DELETE" class="d-inline w-auto">
+                            <button type="submit" class="btn btn-sm btn-outline-secondary disabled">
+                                <i class="fa fa-trash">Delete</i></button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-12 pt-5" th:if="${users.size() == 0}">
+            <h4 class="jumbotron-heading text-center text-white">Your list is empty!</h4>
         </div>
     </div>
+</div>
 </html>

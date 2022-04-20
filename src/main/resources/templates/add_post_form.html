@@ -1,24 +1,25 @@
 <!--suppress ALL -->
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-    <body>
-    <div class="container">
-        <h1 th:if="${hasError}" th:text="${error}"></h1>
+<body>
+<div class="row pt-2 pb-1 bg-warning">
+    <div class="container align-middle">
+        <h3 class="jumbotron-heading text-center font-weight-bolder">ADD NEW POST</h3>
     </div>
-    <div class="container">
+</div>
+<div class="container main-container">
+    <div class="row justify-content-center">
         <form class="form-signin mt-xl-5" th:method="POST" th:action="@{'/timeline/add'}">
-            <h2 class="form-signin-heading text-center">Add new post</h2>
             <p>
                 <label for="content" class="sr-only">What do you want to write?</label>
-                <textarea id="content" name="content" class="form-control" required autofocus
-                          style="height: 200px">
-                </textarea>
+                <textarea id="content" name="content" class="form-control" autofocus></textarea>
             </p>
             <div class="container" th:if="${hasError}">
                 <h4 th:text="${error}" class="text-danger text-center"></h4>
             </div>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Post on timeline</button>
+            <button class="btn btn-outline-warning d-inline w-auto center-button" type="submit">Post on timeline</button>
         </form>
-        <a th:href="@{'/timeline'}" class="btn btn-block btn-light">Cancel</a>
+        <a th:href="@{'/timeline'}" class="btn btn-sm btn-light w-auto mt-2 button-hover">Cancel</a>
     </div>
-    </body>
+</div>
+</body>
 </html>

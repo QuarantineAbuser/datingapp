@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300&display=swap');
+
+.btn {
+    width: 110px;
+}
+
+body {
+    font-family: 'Sora', sans-serif;
+    max-width: 1000px;
+
+}
+
+.nav-link,
+.navbar-brand,
+#userProfileLink,
+.card-header a:hover, a:active{
+    color: white;
+}
+
+.navbar-brand:hover,
+#userProfileLink:hover,
+#userProfileLink:active,
+.nav-link:hover,
+.nav-link:active,
+.card-header a {
+    color: #f0ad4e;
+}
+
+.table {
+    border-collapse: separate;
+    border-radius: 3px;
+    background-color: #f0ad4e;
+    border: #f0ad4e solid 1px;
+}
+
+.table-hover tbody tr:hover td{
+    background-color: white;
+    color: #292b2c;
+}
+
+.table-hover tr:hover a{
+    -webkit-text-stroke: 1px #f0ad4e;
+}
+
+.table-hover a{
+    color: white;
+}
+
+.card-footer {
+    font-size: small;
+}
+
+.button-hover:hover,
+.footer-buttons:hover {
+    background-color: #292b2c;
+    color: #f0ad4e;
+}
+
+.settings{
+    transform: translateX(338px);
+}
+
+.likes {
+    /*transform: translateX(20px);*/
+    transform: translate(20px, 6px);
+}
+
+.table .row {
+    margin-right: 0;
+    margin-left: 0;
+}
+.main-container {
+    min-height: 250px;
+}
+
+.center-button {
+    transform: translateX(390px);
+}
+textarea {
+    height: 150px;
+    resize: none;
+}
+/*
+7 4 1
+toggle between dark-light mode
+*/

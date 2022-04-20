@@ -2,28 +2,30 @@
 <footer class="text-black">
     <div class="container">
         <div class="row">
-            <div class="w-75 float-left">
-                <h5>Made by</h5>
+            <div class="col-6">
+                <h5 class="text-warning">Made by</h5>
                 <hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-25">
-                <p class="mb-0">
+                <p class="mb-0 text-white">
                     Stefan Mitrevski, 195091
                 </p>
             </div>
-            <div class="w-25 float-righ text-right">
-                <h5>Settings</h5>
-                <hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-50">
-                <ul class="list-unstyled" th:if="${activeUser != null}">
-                    <li class="nav-item">
-                        <a class="btn btn-sm btn-dark ml-1 fixedButtonSize"
-                           th:href="@{'/logout'}">
-                            <i class="fa fa-shopping-cart">Logout</i>
-                        </a>
-                        <a class="btn btn-sm btn-dark ml-1 fixedButtonSize"
-                           th:href="@{'/register'}">
-                            <i class="fa fa-shopping-cart">Register</i>
-                        </a>
-                    </li>
-                </ul>
+            <div class="col-6 position-relative">
+                <div class="dropdown mt-2 d-inline w-auto position-absolute settings" th:if="${activeUser != null}">
+                    <button class="btn dropdown-toggle btn-warning border-dark" type="button" id="dropdownMenuButton"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                        Settings
+                    </button>
+                    <ul class="dropdown-menu bg-warning border-dark" aria-labelledby="dropdownMenuButton">
+                        <li><a class="dropdown-item btn btn-sm btn-light footer-buttons w-100"
+                               th:href="@{'/logout'}">
+                            <span class="fa fa-shopping-cart">Logout</span>
+                        </a></li>
+                        <li><a class="dropdown-item btn btn-sm btn-light footer-buttons w-100"
+                               th:href="@{'/register'}">
+                            <span class="fa fa-shopping-cart">Register</span>
+                        </a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>

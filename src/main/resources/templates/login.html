@@ -1,32 +1,26 @@
 <!--suppress ALL -->
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
-    <title>Login</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-</head>
 <body>
-<div class="container" style="min-height: 345px">
+<div class="row pt-2 pb-2 bg-warning">
+    <div class="container align-middle">
+        <h3 class="jumbotron-heading text-center font-weight-bolder">SIGN IN</h3>
+    </div>
+</div>
+<div class="container main-container mt-4">
     <form class="form-signin mt-xl-5" th:method="POST" th:action="@{'/login'}">
-        <h2 class="form-signin-heading text-center">Sign in</h2>
-        <p>
-            <label for="username" class="sr-only">Username</label>
-            <input type="text" id="username" name="username" class="form-control"
-                   placeholder="Username" required="" autofocus="">
-        </p>
-        <p>
-            <label for="password" class="sr-only">Password</label>
-            <input type="password" id="password" name="password" class="form-control"
-                   placeholder="Password" required="">
-        </p>
+        <label for="username" class="sr-only">Username</label>
+        <input type="text" id="username" name="username" class="form-control"
+               placeholder="Username" required="" autofocus="">
+        <label for="password" class="sr-only">Password</label>
+        <input type="password" id="password" name="password" class="form-control"
+               placeholder="Password" required="">
         <div class="container" th:if="${hasError}">
             <h4 th:text="${error}" class="text-danger text-center"></h4>
         </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <button class="btn btn-lg d-block w-100 btn-outline-warning mt-2" type="submit">Sign in</button>
     </form>
-    <a th:href="@{'/register'}" class="btn btn-block btn-light">Register here</a>
+    <a th:href="@{'/register'}" class="btn btn-lg d-block btn-light w-auto mb-2 pb-2 mt-1 button-hover">Register
+        here</a>
 </div>
 </body>
 </html>

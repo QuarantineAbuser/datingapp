@@ -1,7 +1,6 @@
 package mk.ukim.finki.datingapp.web;
 
 import mk.ukim.finki.datingapp.models.exceptions.InvalidUserCredentialsException;
-import mk.ukim.finki.datingapp.models.exceptions.UserNotFoundException;
 import mk.ukim.finki.datingapp.service.AuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

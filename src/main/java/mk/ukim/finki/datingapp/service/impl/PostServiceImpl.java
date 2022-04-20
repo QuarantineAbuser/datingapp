@@ -7,8 +7,9 @@ import mk.ukim.finki.datingapp.service.PostService;
 import mk.ukim.finki.datingapp.service.UserService;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -28,13 +29,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Optional<Post> findById(Long id) {
-        return postRepository.findById(id);
-    }
-
-    @Override
     public void addPost(String content) {
-        if(content.isEmpty())
+        if (content.isEmpty())
             throw new InvalidPostException();
         postRepository.save(new Post(userService.getActiveUser(), content));
     }
@@ -49,5 +45,30 @@ public class PostServiceImpl implements PostService {
             post.getLikes().remove(userService.getActiveUser());
 
         postRepository.save(post);
+    }
+
+    @Override
+    public void deletePost(Long id) {
+        postRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Post> filterPosts(String keyword) {
+        return postRepository.findAllByContentContains(keyword);
+    }
+
+    @Override
+    public List<Post> sortPosts(List<Post> posts, String sort) {
+        Comparator<Post> comparator;
+        if (sort.contains("Date")) {
+            comparator = Comparator.comparing(Post::getDateCreated);
+            if (sort.equals("ascDate"))
+                comparator = comparator.reversed();
+        } else {
+            comparator = Comparator.comparing(p -> p.getLikes().size());
+            if (sort.equals("ascLikes"))
+                comparator = comparator.reversed();
+        }
+        return posts.stream().sorted(comparator).collect(Collectors.toList());
     }
 }

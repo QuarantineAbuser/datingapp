@@ -1,59 +1,99 @@
 <!--suppress ALL -->
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<section class="row pt-2 pb-2" style="background-image: linear-gradient(rebeccapurple,mediumpurple)">
-  <div class="container align-middle">
-    <h3 class="jumbotron-heading text-center font-weight-bolder">TIMELINE</h3>
-  </div>
-</section>
-  <div class="text-center">
-    <h5>
-      <a th:href="@{'/timeline/add'}" class="btn btn-sm btn-info">
-        <i class="fa fa-trash">Add New Post</i></a>
-    </h5>
-  </div>
-<div class="container mb-4" style="min-height: 250px">
-  <div class="row">
-    <div class="col-12" th:if="${posts.size() > 0}">
-      <div class="table-responsive" style="background-color: #FDE3E3;">
-          <table class="table table-striped">
-            <thead>
-            <tr>
-              <th scope="col">Name</th>
-              <th scope="col">Content</th>
-              <th scope="col">Likes</th>
-              <th scope="col">Date Posted</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="post : ${posts}">
-              <td><a th:text="${post.getUser().getNameAndSurname()}"
-                     th:href="@{'/timeline/profile/{username}' (username=${post.getUser().getUsername()})}"
-                     class="btn btn-sm btn-link"></a></td>
-              <td th:text="${post.getContent()}"></td>
-              <td th:text="${post.getLikes().size()}"></td>
-              <td th:text="${post.getFormattedDate()}"></td>
-              <td class="text-right">
-                <form th:if="${post.getLikes().contains(activeUser)} == false"
-                      th:action="@{'/timeline/like/{id}' (id=${post.getId()})}"
-                      th:method="PUT">
-                  <button type="submit" class="btn btn-sm btn-success">
-                    <i class="fa fa-trash">Like</i></button>
-                </form>
-                <form th:if="${post.getLikes().contains(activeUser)} == true"
-                      th:action="@{'/timeline/unlike/{id}' (id=${post.getId()})}"
-                      th:method="DELETE">
-                  <button type="submit" class="btn btn-sm btn-danger">
-                    <i class="fa fa-trash">Unlike</i></button>
-                </form>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div class="col-12 pt-5" th:if="${posts.size() == 0}">
-        <h4 class="jumbotron-heading text-center">There are no posts yet!</h4>
-      </div>
+<div class="row pt-2 pb-1 bg-warning">
+    <div class="container align-middle">
+        <h3 class="jumbotron-heading text-center font-weight-bolder">TIMELINE</h3>
     </div>
-  </div>
+</div>
+<div class="text-center">
+    <h5>
+        <a th:href="@{'/timeline/add'}" class="btn btn-sm btn-light w-auto mt-3 button-hover">
+            <b class="fa fa-trash">Add New Post</b></a>
+    </h5>
+</div>
+<div class="container mb-4 main-container">
+    <div class="row">
+        <div class="container align-middle mt-2">
+            <form class="align-content-center" th:action="@{'/timeline'}">
+                <div class="input-group input-group-sm">
+                    <input type="text" id="keyword" name="keyword" th:value="${keyword != null} ? ${keyword} : null"
+                           class="form-control shadow-none" aria-label="Small"
+                           placeholder="Enter post keyword">
+                    <div class="input-group-append btn-group btn-group-sm" role="group">
+                        <input name="sort" type="radio" id="ascDate" value="ascDate"
+                               th:checked="${sort == null || sort.equals('ascDate')}"
+                               class="btn-check">
+                        <label class="btn btn-outline-warning shadow-none" for="ascDate">Newest First</label>
+                        <input name="sort" type="radio" id="descDate" value="descDate"
+                               th:checked="${sort != null && sort.equals('descDate')}"
+                               class="btn-check">
+                        <label class="btn btn-outline-warning shadow-none" for="descDate">Oldest First</label>
+                        <input name="sort" type="radio" id="ascLikes" value="ascLikes"
+                               th:checked="${sort != null && sort.equals('ascLikes')}"
+                               class="btn-check">
+                        <label class="btn btn-outline-warning shadow-none" for="ascLikes">Most liked</label>
+                        <input name="sort" type="radio" id="descLikes" value="descLikes"
+                               th:checked="${sort != null && sort.equals('descLikes')}"
+                               class="btn-check">
+                        <label class="btn btn-outline-warning shadow-none" for="descLikes">Least liked</label>
+                    </div>
+                    <div class="input-group-append">
+                        <div class="btn-group btn-group-sm">
+                            <button type="submit" class="btn btn-danger w-auto">
+                                <span class="fa fa-search">Filter</span>
+                            </button>
+                            <a th:href="@{'/timeline?keyword=&sort=ascDate'}"
+                               class="btn btn-secondary w-auto">
+                                <span class="fa fa-search">Clear</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-12 mt-3" th:if="${posts.size() > 0}" th:each="post : ${posts}">
+            <div class="card border-warning">
+                <div class="card-header bg-secondary">
+                    <a th:text="${post.getUser().getNameAndSurname()}"
+                       th:href="@{'/timeline/profile/{username}' (username=${post.getUser().getUsername()})}"
+                       class="text-decoration-none"></a></div>
+                <div class="card-body">
+                    <div class="card-text" th:text="${post.getContent()}"></div>
+                </div>
+                <div class="card-footer bg-dark text-white">
+                    <div class="row">
+                        <div class="col-md-5 mt-2" th:text="${post.getFormattedDate()}"></div>
+                        <div class="col-md-6 row justify-content-end">
+                            <form th:if="${post.getUser().equals(activeUser)} == true"
+                                  th:action="@{'/timeline/delete/{id}' (id=${post.getId()})}"
+                                  th:method="DELETE" class="d-inline w-auto">
+                                <button type="submit" class="btn btn-sm btn-outline-primary">
+                                    <i class="fa fa-trash">Delete</i></button>
+                            </form>
+                            <form th:if="${post.getLikes().contains(activeUser)} == false"
+                                  th:action="@{'/timeline/like/{id}' (id=${post.getId()})}"
+                                  th:method="PUT" class="d-inline w-auto">
+                                <button type="submit" class="btn btn-sm btn-outline-success">
+                                    <i class="fa fa-trash">Like</i></button>
+                            </form>
+                            <form th:if="${post.getLikes().contains(activeUser)} == true"
+                                  th:action="@{'/timeline/unlike/{id}' (id=${post.getId()})}"
+                                  th:method="DELETE" class="d-inline w-auto">
+                                <button type="submit" class="btn btn-sm btn-outline-danger">
+                                    <i class="fa fa-trash">Unlike</i></button>
+                            </form>
+                        </div>
+                        <div class="col-md-auto row">
+                            <span class="likes" th:text="${'Likes:' + post.getLikes().size()}"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 pt-5" th:if="${posts.size() == 0}">
+            <h4 class="jumbotron-heading text-center text-white">There are no posts yet, or there are none matching your
+                filter!</h4>
+        </div>
+    </div>
+</div>
 </html>

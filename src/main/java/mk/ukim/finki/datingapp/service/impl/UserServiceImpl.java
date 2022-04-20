@@ -142,18 +142,28 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void match(User user1, User user2, boolean match) {
-        if (!user1.getMatched().contains(user2) || !user2.getMatched().contains(user1)) {
-            if(match) {
+//        if (!user1.getMatched().contains(user2) || !user2.getMatched().contains(user1)) {
+//            if(match) {
+//                user1.addMatched(user2);
+//                user2.addMatched(user1);
+//            }
+//            else {
+//                user1.getMatched().remove(user2);
+//                user2.getMatched().remove(user1);
+//            }
+//            userRepository.save(user1);
+//            userRepository.save(user2);
+//        }
+            if(match && (!user1.getMatched().contains(user2) || !user2.getMatched().contains(user1))) {
                 user1.addMatched(user2);
                 user2.addMatched(user1);
             }
-            else {
+            else if(!match && (user1.getMatched().contains(user2) || user2.getMatched().contains(user1))) {
                 user1.getMatched().remove(user2);
                 user2.getMatched().remove(user1);
             }
             userRepository.save(user1);
-            userRepository.save(user2);
-        }
+            //userRepository.save(user2);
     }
 
     @Override
