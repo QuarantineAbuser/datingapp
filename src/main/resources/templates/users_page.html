@@ -61,10 +61,17 @@
                     <td th:text="${user.getSex()}"></td>
                     <td th:text="${user.getBio()}"></td>
                     <td class="row justify-content-center">
-                        <form th:action="@{'/users/uninterested/{username}' (username=${user.getUsername()})}"
+                        <form th:if="${activeUser.getInterestedIn().contains(user)} == true"
+                              th:action="@{'/users/uninterested/{username}' (username=${user.getUsername()})}"
                               th:method="DELETE" class="d-inline w-auto">
                             <button type="submit" class="btn btn-sm btn-outline-danger">
                                 <i class="fa fa-trash">Uninterested</i></button>
+                        </form>
+                        <form th:if="${activeUser.getInterestedIn().contains(user)} == false"
+                              th:action="@{'/users/interested/{username}' (username=${user.getUsername()})}"
+                              th:method="PUT" class="d-inline w-auto">
+                            <button type="submit" class="btn btn-sm btn-outline-success">
+                                <i class="fa fa-trash">Interested</i></button>
                         </form>
                         <form th:if="${activeUser.getLikes().contains(user)} == false"
                               th:action="@{'/users/like/{username}' (username=${user.getUsername()})}"

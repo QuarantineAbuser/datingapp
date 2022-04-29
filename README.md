@@ -6,3 +6,6 @@ My plan is to have many users and when each users registers their profiles are v
 
 ## Made With:
 Java, Spring, HTML, CSS and Bootstrap. Maybe JavaScript and jQuery in the future updates.
+
+## Video presentation: 
+https://youtu.be/P40EQv8_rYg
